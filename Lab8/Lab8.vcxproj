@@ -111,6 +111,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="dijkstra.h" />
+    <ClInclude Include="Graph.h" />
+    <ClInclude Include="Node.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dijkstra.cpp" />
+    <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Node.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
