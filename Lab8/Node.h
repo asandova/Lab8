@@ -18,7 +18,6 @@ private:
     string m_name;
     int m_id;
 	double dist;
-	Node* pre;
 
 public:
         Node();
@@ -34,8 +33,7 @@ public:
         int id()const;
         void setID(int id);
 		void setDist(double d);
-		double Dist();
-		Node Prev();
+		double Dist()const;
 		void setPrev(Node & p);
         const string & name()const;
 };

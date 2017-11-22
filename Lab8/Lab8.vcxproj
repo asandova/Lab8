@@ -112,12 +112,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="dijkstra.h" />
+    <ClInclude Include="Edge.h" />
     <ClInclude Include="Graph.h" />
+    <ClInclude Include="HeapPriorityQueue.h" />
+    <ClInclude Include="LinkedPriorityQueue.h" />
     <ClInclude Include="Node.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dijkstra.cpp" />
+    <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="LinkedPriorityQueue.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
   </ItemGroup>

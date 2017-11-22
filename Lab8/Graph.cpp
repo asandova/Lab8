@@ -12,24 +12,21 @@
 #include <vector>
 #include <list>
 #include <fstream>
-
 #include <cstring>
 
-#include "Node.h"
 #include "Graph.h"
-
 using namespace std;
 
 Graph::Graph() {
 	Directed = false;
 	m_nodes = vector<Node>();
-	m_adjList = vector<list<Node> >();
+	m_adjList = vector<list<Edge> >();
 }
 
 Graph::Graph(const string & file, bool dir){
     Directed = dir;
     m_nodes = vector<Node>();
-    m_adjList = vector<list<Node> >();
+    m_adjList = vector<list<Edge> >();
     scan(file);
 }
 
@@ -37,29 +34,30 @@ Graph::Graph(const string& file){
     Directed = false;
 
     m_nodes = vector<Node>();
-    m_adjList = vector<list<Node> >();
+    m_adjList = vector<list<Edge> >();
     scan(file);
 }
 
 bool Graph::isDirected()const {
 	return Directed;
 }
-
+/*
 void Graph::update(){
 	for (size_t i = 0; i < m_nodes.size(); i++) {
-		for (list<Node>::iterator itr = m_adjList[i].begin(); itr != m_adjList[i].end(); ++itr) {
+		for (list<Edge>::iterator itr = m_adjList[i].begin(); itr != m_adjList[i].end(); ++itr) {
 			*itr = getNode(itr->id());
 		}
 	}
 }
+*/
 //Insert a edge ( a ,b ) to m_adjList
-void Graph::addEdge ( const Node & a , const Node & b ) {
+void Graph::addEdge ( const Node & a , const Node & b, double d ) {
     //the addEdge will add node b to node a's adj list if
         //the node is not already in the list
             //and inserts the nodes in alphabetical order
 	//cout << "adding edge:" << a << " to " << b << endl;
 	if( m_adjList[ a.id() ].empty() ){
-		m_adjList[ a.id() ].push_back(b);
+		m_adjList[ a.id() ].push_back( Edge(b, d) );
 		//cout << "created edge: " << a << " to " << b << endl;
 		if (Directed)
 			return;
@@ -121,13 +119,16 @@ void Graph::addNode ( const Node & a ) {
 	//cout << "adding Node " << a << endl;
 	if (m_nodes.empty()) {
 		m_nodes.push_back(a);
-		list<Node> adj = list<Node>();
+		list<Edge> adj = list<Edge>();
 		m_adjList.push_back(adj);
 		return;
 	}
     else if( !NodeExist(a.name() ) ){
-		list<Node> adj = list<Node>();
+		//creating adjecency list for new Node
+		list<Edge> adj = list<Edge>();
 		m_adjList.push_back(adj);
+
+		//inserting new Node
 		for (vector<Node>::iterator itr = m_nodes.begin(); itr != m_nodes.end(); ++itr) {
 			if (*itr > a) {
 				m_nodes.insert(itr, a);
@@ -142,9 +143,9 @@ void Graph::addNode ( const Node & a ) {
 
 bool Graph::NodeExistAdj(const Node& a, size_t id)const{
     ///checks if node a is in the adj list for the node with the ID value of id
-    const list<Node> Adjlist = getAdjNodes( getNode(id) );
-    for(list<Node>::const_iterator itr = Adjlist.begin(); itr != Adjlist.end(); ++itr ){
-        if(a == *itr)
+    const list<Edge> Adjlist = getAdjNodes( getNode(id) );
+    for(list<Edge>::const_iterator itr = Adjlist.begin(); itr != Adjlist.end(); ++itr ){
+        if(a == *(itr->getDestination() ) )
             return true;
     }
     return false;
@@ -212,39 +213,13 @@ const Node& Graph::getNodeAt(size_t i)const {
 }
 
 // Return reference of the adjacency list of node a
-list <Node> & Graph::getAdjNodes ( const Node & a ){
+list <Edge> & Graph::getAdjNodes ( const Node & a ){
     return m_adjList[ a.id ( ) ] ;
 }
 
 // Return constant reference to adjacency list of node a
-const list <Node> & Graph::getAdjNodes ( const Node & a ) const{
+const list <Edge> & Graph::getAdjNodes ( const Node & a ) const{
     return m_adjList [ a.id ( ) ] ;
-}
-
-bool Graph::allExplored(size_t id)const{
-    const list<Node> L = getAdjNodes( getNode( id ) );
-    for(list<Node>::const_iterator itr = L.begin(); itr != L.end(); ++itr){
-        if(itr->getPreTime() == 0){
-            return false;
-        }
-    }
-    return true;
-}
-
-bool Graph::allExplored()const {
-	for (size_t i = 0; i < m_nodes.size(); i++) {
-		if (!allExplored(i))
-			return false;
-	}
-	return true;
-}
-
-bool Graph::allHaveComponent()const {
-	for (size_t i = 0; i < m_nodes.size(); i++) {
-		if (m_nodes[i].C_ID() == -1)
-			return false;
-	}
-	return true;
 }
 
 // Return the total number of nodes i n the graph
@@ -254,15 +229,19 @@ size_t Graph::num_nodes ( ) const {
 
 //only splits strings into two on tab character
 vector<string> split(const string& a){
-    vector<string> names;
+    vector<string> Line;
+	size_t TabLoc[2];
+	size_t tab = 0;
     for(size_t i = 0; i < a.size()-1; i++ ){
-        if(a[i] == '\t'){
-            names.push_back( a.substr(0, i)   ) ;
-            names.push_back( a.substr(i+1, a.size() ) );
-            break;
+        if(a[i] == '\t' && tab < 2){
+			TabLoc[tab] = i;
+			tab++;
         }
     }
-    return names;
+	Line.push_back( a.substr(0,TabLoc[0]) );
+	Line.push_back( a.substr(TabLoc[0]+1,TabLoc[1]) );
+	Line.push_back(a.substr(TabLoc[1]+1, a.size() ) );
+    return Line;
 }
 
 // Create a graph from a tab−separated text edge list file
@@ -283,33 +262,33 @@ void Graph::scan ( const string & file ){
                 getline(iFile, fline);
                 string L(fline);
 				if (fline.size() >= 3) {
-					vector<string> names = split(fline);
+					vector<string> Line = split(fline);
 					//vector<string>names(2);
 					//names[0] = fline.c_str()[0];
 					//names[1] = fline.c_str()[2];
 					//cout << endl <<"read in: "<< fline << endl;
 
-					if(!NodeExist( names[0] ) ){
-							N1 = Node( names[0],id++) ;
+					if(!NodeExist( Line[0] ) ){
+							N1 = Node( Line[0],id++) ;
 							//N1 = tmp1;
 							addNode(N1);
 					}else{
 						//cout << "Node with name " << names[0] << " exist" << endl;
-						N1 = getNode( findID( names[0] ) ) ;
+						N1 = getNode( findID( Line[0] ) ) ;
 						//cout << "Existing: N1-" << N1 << endl;
 					}
 					//cout << "N1: " << N1 << endl;
-					if(!NodeExist( names[1] ) ){
-							N2 = Node( names[1] ,id++);
+					if(!NodeExist( Line[1] ) ){
+							N2 = Node( Line[1] ,id++);
 							//N2 = tmp2;
 							addNode( N2 ) ;
 					}else{
 							//cout << "Node with name" << names[1] << " exist" << endl;
-							N2 = getNode( findID( names[1] ) ) ;
+							N2 = getNode( findID( Line[1] ) ) ;
 					}
 					//cout << "N2: " << N2 << endl;
 					//cout << N1 << endl << N2 << endl;
-					addEdge(N1, N2);
+					addEdge(N1, N2, atof( Line[2].c_str() ));
 				}
         }//end of while
         iFile.close();
@@ -327,14 +306,14 @@ void Graph::save( const string & file ){
         ofstream OFile;
         OFile.open(file.c_str(), ofstream::out);
         for(size_t i =0; i < m_nodes.size(); i++){
-            const list<Node> neighbors = getAdjNodes( getNodeAt(i) );
-			for (list<Node>::const_iterator itr = neighbors.begin(); itr != neighbors.end(); ++itr){
-				list<Node>::const_iterator Nitr = itr;
+			const list<Edge> neighbors = getAdjNodes(getNode(i));
+			for (list<Edge>::const_iterator itr = neighbors.begin(); itr != neighbors.end(); ++itr){
+				list<Edge>::const_iterator Nitr = itr;
 				if ( i + 1 == m_nodes.size() && ++Nitr == neighbors.end()){
-					OFile << getNodeAt(i).name() << "\t" << itr->name();
+					OFile << getNodeAt(i).name() << "\t" << itr->Dest->name()  ;
 				}
 				else {
-					OFile << getNodeAt(i).name() << "\t" << itr->name() << "\n";
+					OFile << getNodeAt(i).name() << "\t" << itr->Dest->name() << "\n";
 				}
 			}
         }
@@ -348,173 +327,46 @@ void Graph::saveRev(const string & file) {
 	ofstream OFile;
 	OFile.open(file.c_str(), ofstream::out);
 	for (size_t i = 0; i < m_nodes.size(); i++) {
-		const list<Node> neighbors = getAdjNodes(getNodeAt(i));
-		for (list<Node>::const_iterator itr = neighbors.begin(); itr != neighbors.end(); ++itr) {
-			list<Node>::const_iterator Nitr = itr;
+		const list<Edge> neighbors = getAdjNodes(getNodeAt(i));
+		for (list<Edge>::const_iterator itr = neighbors.begin(); itr != neighbors.end(); ++itr) {
+			list<Edge>::const_iterator Nitr = itr;
 			if (i + 1 == m_nodes.size() && ++Nitr == neighbors.end()) {
-				OFile << itr->name() << "\t" << getNode(i).name();
+				OFile << itr->Dest->name() << "\t" << getNode(i).name();
 			}
 			else {
-				OFile << itr->name() << "\t" << getNode(i).name() << "\n";
+				OFile << itr->Dest->name() << "\t" << getNode(i).name() << "\n";
 			}
 		}
 	}
 	OFile.close();
 }
-//only reverses directed graph
-void Graph::reverseAdjList() {
-	if (Directed) {
-		vector <list<Node> > R_adj;
-		R_adj = vector<list<Node> >();
-		R_adj.resize(m_adjList.size());
-
-		for (size_t i = 0; i < m_adjList.size(); i++) {
-			for (list<Node>::const_iterator itr = getAdjNodes(getNode(i)).begin(); itr != getAdjNodes(getNode(i)).end(); ++itr) {
-				R_adj[itr->id()].push_back(getNode(i));
-			}
-		}
-		m_adjList = R_adj;
-	}
-}
-
-void Graph::clearTimes() {
-	for (size_t i = 0; i < m_nodes.size(); i++) {
-		m_nodes[i].setPreTime(0);
-		m_nodes[i].setPostTime(0);
-	}
-	update();
-}
-void Graph::clearCID() {
-	for (size_t i = 0; i < m_nodes.size(); i++) {
-		m_nodes[i].setC_ID(NULL);
-	}
-	update();
-}
 
 ostream& operator<<(ostream & out, const Graph & g){
     out << "Nodes in "<< ( ( g.Directed )? "Directed" : "Undirected") << " graph: " << endl ;
-	out << "Node pre/post times: \"name\" (pre,post)" << endl;
+	out << "Nodes:";
 	for (unsigned i = 0; i < g.num_nodes(); i++) {
 		if (i + 1 == g.num_nodes()) {
-			out << g.m_nodes[i].name() << " (" << g.m_nodes[i].getPreTime() << ", "
-				<< g.m_nodes[i].getPostTime() << ")";
+			out << g.m_nodes[i].name();
 		}
 		else {
-		out << g.m_nodes[i].name() << " (" << g.m_nodes[i].getPreTime() << ", "
-			<< g.m_nodes[i].getPostTime() << ")" << ", ";
+		out << g.m_nodes[i].name() << ", ";
 		}
     }
-    out << endl ;
-	out << "Node IDs : \"name\"[ID,cID]" << endl;
-	for (unsigned i = 0; i < g.num_nodes(); i++) {
-		if (i + 1 == g.num_nodes()) {
-			out << g.m_nodes[i].name() << " [" << g.m_nodes[i].id() << ", "
-				<< g.m_nodes[i].C_ID() << "]";
-		}
-		else {
-			out << g.m_nodes[i].name() << " [" << g.m_nodes[i].id() << ", "
-				<< g.m_nodes[i].C_ID() << "]" << ", ";
-		}
-	}
-	out << endl;
-	out << "Node Depth : \"name\"(depth)" << endl;
-	for (unsigned i = 0; i < g.num_nodes(); i++) {
-		if (i + 1 == g.num_nodes()) {
-			out << g.m_nodes[i].name() << " (" << g.m_nodes[i].getDepth() << ")";
-		}
-		else {
-			out << g.m_nodes[i].name() << " (" << g.m_nodes[i].getDepth() << ")" << ", ";
-		}
-	}
 	out << endl;
     out << "Adjacency list of the graph : " << endl ;
     for ( unsigned i =0; i <g.num_nodes( ) ; i ++) {
         out << "Node " << g.m_nodes[i].name( ) << " : ";
-        const list <Node> neighbors = g.getAdjNodes ( g.m_nodes[i]) ;
-            for( list<Node>::const_iterator itr = neighbors.begin( ) ;
+        const list <Edge> neighbors = g.getAdjNodes ( g.m_nodes[i]) ;
+            for( list<Edge>::const_iterator itr = neighbors.begin( ) ;
                 itr!= neighbors.end( ) ; ++itr ) {
-				list<Node>::const_iterator BEnd = itr;
+				list<Edge>::const_iterator BEnd = itr;
 				if (++BEnd == neighbors.end()) {
-					out << itr->name() << " (" << itr->getPreTime() << ", " << itr->getPostTime() << ")";
+					out << itr->Dest->name();
 				}else
-					out << itr->name( ) << " (" << itr->getPreTime() << ", " << itr->getPostTime() << "), " ;
+					out << itr->Dest->name( ) << ", " ;
             }
         out << endl;
     }
     return out;
-}
-
-void Graph::sortByAlpha() {
-	//sort m_nodes
-	int size = m_nodes.size();
-	for (size_t gap = size / 2; gap > 0; gap /= 2) {
-		
-		for (size_t i = gap; i < size; i++) {
-			Node temp = m_nodes[i];
-			size_t j;
-			for (j = i; j >= gap && m_nodes[j - gap] > temp; j -= gap) {
-				m_nodes[j] = m_nodes[j - gap];
-			}
-			m_nodes[j] = temp;
-		}
-	}
-	//sort adj_list
-	for (size_t i = 0; i < size; i++) {
-		if(m_adjList[i].size() > 1)
-			sortListByAlpha(i);
-	}
-
-}
-void Graph::sortListByAlpha(size_t id) {
-	list<Node>::iterator itr1, itr2, toSwap;
-	Node temp;
-	for (itr1 = m_adjList[id].begin(); itr1 != m_adjList[id].end(); ++itr1) {
-		toSwap = itr1;
-		for ( itr2 = itr1; itr2 != m_adjList[id].end(); ++itr2) {
-			if (*itr2 < *itr1) {
-				toSwap = itr2;
-			}
-		}
-		temp = *toSwap;
-		*toSwap = *itr1;
-		*itr1 = temp;
-	}
-}
-
-void Graph::sortByPost(){
-	//sort m_nodes
-	int size = m_nodes.size();
-	for (size_t gap = size / 2; gap > 0; gap /= 2) {
-
-		for (size_t i = gap; i < size; i++) {
-			Node temp = m_nodes[i];
-			size_t j;
-			for (j = i; j >= gap && m_nodes[j - gap].getPostTime() < temp.getPostTime(); j -= gap) {
-				m_nodes[j] = m_nodes[j - gap];
-			}
-			m_nodes[j] = temp;
-		}
-	}
-
-	//sort adj_list
-	for (size_t i = 0; i < size; i++) {
-		if (m_adjList[i].size() > 1)
-			sortListByPost(i);
-	}
-}
-void Graph::sortListByPost(size_t id) {
-	list<Node>::iterator itr1, itr2,toSwap;
-	Node temp;
-	for (itr1 = m_adjList[id].begin(); itr1 != m_adjList[id].end(); ++itr1) {
-		toSwap = itr1;
-		for (itr2 = itr1; itr2 != m_adjList[id].end(); ++itr2) {
-			if (itr2->getPostTime() > itr1->getPostTime()) {
-				toSwap = itr2;
-			}
-		}
-		temp = *toSwap;
-		*toSwap = *itr1;
-		*itr1 = temp;
-	}
 }
 

@@ -13,29 +13,31 @@
 #include <vector>
 #include <list>
 #include "Node.h"
+#include "Edge.h"
 
 using namespace std;
+
 
 class Graph{
     private:
 		//stores all the nodes in the graph
 		//it automaticaly alphabetically sorted
         vector<Node> m_nodes;
-        vector< list< Node > > m_adjList;
+        vector< list< Edge > > m_adjList;
         bool Directed;
-		void sortListByAlpha(size_t id);
-		void sortListByPost(size_t id);
+		//void sortListByAlpha(size_t id);
+		//void sortListByPost(size_t id);
 		
     public:
         friend ostream& operator<<(ostream & out, const Graph & g); //defined
-		void update();
+		//void update();
 		Graph();
         Graph(const string & file);
         Graph(const string & file, bool dir);
 		bool isDirected()const;
 
         //Insert a edge ( a , b ) to m_adjList
-        void addEdge ( const Node & a , const Node & b ) ;//defined - need to check
+        void addEdge ( const Node & a , const Node & b, double dist ) ;//defined - need to check
 
         //Insert a node a to m_nodes
         void addNode ( const Node & a ); //defined
@@ -59,14 +61,10 @@ class Graph{
 		const Node& getNodeAt(size_t i)const;
 
         // Return reference of the adjacency list of node a
-        list <Node> & getAdjNodes ( const Node & a );//defined
+        list <Edge> & getAdjNodes ( const Node & a );//defined
 
         // Return constant reference to adjacency list of node a
-        const list <Node> & getAdjNodes ( const Node & a ) const; //defined
-
-        bool allExplored(size_t id)const;
-		bool allExplored()const;
-		bool allHaveComponent()const;
+        const list <Edge> & getAdjNodes ( const Node & a ) const; //defined
         // Return the total number of nodes i n the graph
         size_t num_nodes ( ) const; //defined
 
@@ -78,12 +76,6 @@ class Graph{
         // text edge list file
         void save ( const string & file ) ; //defined
 		void saveRev(const string & file);
-		void reverseAdjList();
-		void clearTimes();
-		void clearCID();
-
-		void sortByAlpha();
-		void sortByPost();
 
 };
 #endif // GRAPH_H
