@@ -23,6 +23,8 @@ public:
 	double getDistance()const;
 private:
 	double Dist;
+
+
 	Node* Dest;
 	Node* Src;
 };

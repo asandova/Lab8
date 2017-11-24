@@ -54,4 +54,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Graph1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Graph2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Graph3.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Graph4.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Graph5.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

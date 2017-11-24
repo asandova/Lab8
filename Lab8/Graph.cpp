@@ -189,7 +189,7 @@ const Node & Graph::getNode ( size_t id )const{
 			return m_nodes[i];
 	}
 	//should never get here
-	//return Node("", 0);
+	return Node::NULL_NODE;
 }
 
 Node & Graph::getNode(size_t id) {
@@ -201,7 +201,7 @@ Node & Graph::getNode(size_t id) {
 			return m_nodes[i];
 	}
 	//should never get here
-	//return Node("", 0);
+	//return Node::NULL_NODE;
 }
 
 Node& Graph::getNodeAt(size_t i) {

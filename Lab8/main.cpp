@@ -16,6 +16,8 @@ using namespace std;
 
 void testall(){
 
+	Graph Tgraph("Graph1.txt");
+	cout << Tgraph << endl;
 }
 
 int main(){

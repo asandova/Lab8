@@ -126,6 +126,13 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Graph1.txt" />
+    <Text Include="Graph2.txt" />
+    <Text Include="Graph3.txt" />
+    <Text Include="Graph4.txt" />
+    <Text Include="Graph5.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

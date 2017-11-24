@@ -12,6 +12,8 @@
 
 using namespace std;
 
+const Node Node::NULL_NODE = Node();
+
 Node::Node(){
     m_name = "NULL";
 	dist = numeric_limits<double>::infinity();

@@ -23,6 +23,7 @@ public:
         Node();
         Node(const string & name, int id);
 
+		const static Node NULL_NODE;
         friend ostream& operator<<(ostream & out, const Node & n);
         bool operator==(const Node & b)const;
         bool operator!=(const Node & b)const;
