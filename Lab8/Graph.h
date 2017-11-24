@@ -75,7 +75,7 @@ class Graph{
         // Save a graph from adjacency lists to a tab−separated
         // text edge list file
         void save ( const string & file ) ; //defined
-		void saveRev(const string & file);
+		//void saveRev(const string & file);
 
 };
 #endif // GRAPH_H

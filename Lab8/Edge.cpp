@@ -11,6 +11,7 @@
 Edge::Edge(){
 	Dist = numeric_limits<double>::infinity();
 	Dest = nullptr;
+	Src = nullptr;
 }
 
 void Edge::Destination(Node& D){
@@ -20,9 +21,17 @@ void Edge::Destination(Node& D){
 void Edge::Distance(double d){
 	Dist = d;
 }
-Node& Edge::getDestination() {
+void Edge::Source(Node & s) {
+	Src = &s;
+}
+
+Node& Edge::getSource()const{
+	return *Src;
+}
+
+Node& Edge::getDestination()const{
 	return *Dest;
 }
-double Edge::getDistance() {
+double Edge::getDistance()const{
 	return Dist;
 }

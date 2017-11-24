@@ -14,13 +14,17 @@ class Edge
 {
 public:
 	Edge();
+	Edge(const Node& s, const Node &d, double dist);
 	void Destination(Node& dest);
 	void Distance(double dist);
-	Node& getDestination();
-	double getDistance();
+	void Source(Node & src);
+	Node& getSource()const;
+	Node& getDestination()const;
+	double getDistance()const;
 private:
 	double Dist;
 	Node* Dest;
+	Node* Src;
 };
 
 #endif // !EDGE_H
