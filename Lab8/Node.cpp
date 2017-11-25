@@ -17,7 +17,7 @@ const Node Node::NULL_NODE = Node();
 Node::Node(){
     m_name = "NULL";
 	dist = numeric_limits<double>::infinity();
-};
+}
 
 Node::Node(const string & name, int id){
         m_name = name;
@@ -63,19 +63,18 @@ bool Node::operator!=(const Node& b)const{
     return !(*this == b);
 }
 
-
 //operators <,> will to Lexicographical comparison based on ascii values
 //so "a" < "b" because "a" = 97, "b"=98
 //and "A" < "a" because "A" = 65, "a" = 97
 
 bool Node::operator<(const Node& b)const{
-    if( (m_name) <  b.name())
+    if( m_name <  b.name() )
         return true;
     else
         return false;
 }
 bool Node::operator>(const Node & b)const {
-    if(m_name > b.name())
+    if( m_name > b.name() )
         return true;
     else
         return false;

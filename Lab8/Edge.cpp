@@ -8,30 +8,44 @@
 **/
 #include "Edge.h"
 
-Edge::Edge(){
-	Dist = numeric_limits<double>::infinity();
-	Dest = nullptr;
-	Src = nullptr;
+Edge::Edge(const int s,const int d, double dist):DestID(d),SrcID(s) {
+	Dist = dist;
 }
 
-void Edge::Destination(Node& D){
-	Dest = &D;
-}
-
-void Edge::Distance(double d){
+void Edge::setDistance(double d) {
 	Dist = d;
 }
-void Edge::Source(Node & s) {
-	Src = &s;
+
+int Edge::getSource()const{
+	return SrcID;
 }
 
-Node& Edge::getSource()const{
-	return *Src;
-}
-
-Node& Edge::getDestination()const{
-	return *Dest;
+int Edge::getDestination()const{
+	return DestID;
 }
 double Edge::getDistance()const{
 	return Dist;
+}
+
+bool Edge::operator==(const Edge& E)const {
+	//returns true of the edge is connected to the same nodes regardless of which is the source and destination
+	//the reason is that it is the same edge in a indirected graph
+	//if returns false of the end node are different
+	if ( this->DestID == E.getDestination() && this->SrcID == E.getSource()) {
+		return true;
+	}
+	else if ( this->SrcID == E.getDestination() && this->DestID == E.getSource()) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+bool Edge::operator!=(const Edge& E)const {
+	if (*this == E) {
+		return false;
+	}
+	else {
+		return true;
+	}
 }

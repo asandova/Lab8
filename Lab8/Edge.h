@@ -13,20 +13,18 @@
 class Edge
 {
 public:
-	Edge();
-	Edge(const Node& s, const Node &d, double dist);
-	void Destination(Node& dest);
-	void Distance(double dist);
-	void Source(Node & src);
-	Node& getSource()const;
-	Node& getDestination()const;
+	Edge(const int s,const int d, double dist);
+	int getSource()const;
+	int getDestination()const;
+	void setDistance(double d);
 	double getDistance()const;
+	friend ostream& operator<<(ostream& out, const Edge& E);
+	bool operator==(const Edge& E)const;
+	bool operator!=(const Edge& E)const;
 private:
 	double Dist;
-
-
-	Node* Dest;
-	Node* Src;
+	const int DestID;
+	const int SrcID;
 };
 
 #endif // !EDGE_H

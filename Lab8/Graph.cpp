@@ -57,26 +57,26 @@ void Graph::addEdge ( const Node & a , const Node & b, double d ) {
             //and inserts the nodes in alphabetical order
 	//cout << "adding edge:" << a << " to " << b << endl;
 	if( m_adjList[ a.id() ].empty() ){
-		m_adjList[ a.id() ].push_back( Edge(a,b, d) );
+		m_adjList[ a.id() ].push_back( Edge( a.id() , b.id(), d) );
 		//cout << "created edge: " << a << " to " << b << endl;
 		if (Directed)
 			return;
     }
     else if(!NodeExistAdj( b, a.id() ) ){
         //list<Node*> adjList = getAdjNodes(a);
-		if ( m_adjList[ a.id() ].front().getDestination() > b ) {
-			m_adjList[a.id()].push_front( Edge(a, b, d) );
+		if (  getNode(m_adjList[ a.id() ].front().getDestination() )  > b ) {
+			m_adjList[a.id()].push_front( Edge(a.id(),b.id(), d) );
 			//cout << "created edge: " << a << " to " << b << endl;
 			return;
 		}
         for(list<Edge>::iterator itr = m_adjList[ a.id() ].begin(); itr != m_adjList[ a.id() ].end(); ++itr){
-			if(itr->getDestination() > b){
-				m_adjList[a.id()].insert(itr, Edge(a, b, d) );
+			if( getNode( itr->getDestination() ) > b){
+				m_adjList[a.id()].insert(itr, Edge(a.id(), b.id(), d) );
 				//cout << "created edge: " << a << " to " << b << endl;
                 return;
             }
         }
-        m_adjList[a.id()].push_back(Edge(a, b, d));
+        m_adjList[a.id()].push_back( Edge(a.id(), b.id(), d ) );
 		if (Directed)
 			return;
     }
@@ -84,24 +84,18 @@ void Graph::addEdge ( const Node & a , const Node & b, double d ) {
 	//adds the edge from B to A if the graph is undirected
     if(!Directed){
 		if (m_adjList[b.id()].empty()) {
-			m_adjList[b.id()].push_back(Edge(b,a, d));
+			m_adjList[b.id()].push_back(Edge(b.id(), a.id(), d));
 			//cout << "created edge: " << a << " to " << b << endl;
-		}
-		if (m_adjList[b.id()].empty()) {
-			m_adjList[b.id()].push_back(Edge(b, a, d));
-			//cout << "created edge: " << a << " to " << b << endl;
-			if (Directed)
-				return;
 		}
 		else if (!NodeExistAdj(a, b.id())) {
-			if (m_adjList[b.id()].front().getDestination() > a) {
-				m_adjList[b.id()].push_front(Edge(b, a, d));
+			if ( getNode(m_adjList[b.id()].front().getDestination()) > a) {
+				m_adjList[b.id()].push_front(Edge(b.id(), a.id(), d));
 				//cout << "created edge: " << b << " to " << a << endl;
 				return;
 			}
 			for (list<Edge>::iterator itr = m_adjList[b.id()].begin(); itr != m_adjList[b.id()].end(); ++itr) {
-				if (itr->getDestination() > a) {
-					m_adjList[b.id()].insert(itr, Edge(b, a, d) );
+				if ( getNode(itr->getDestination())  > a) {
+					m_adjList[b.id()].insert(itr, Edge(b.id(), a.id(), d));
 					//cout << "created edge: " << a << " to " << b << endl;
 					return;
 				}
@@ -145,9 +139,9 @@ bool Graph::NodeExistAdj(const Node& a, size_t id)const{
     ///checks if node a is in the adj list for the node with the ID value of id
     const list<Edge> Adjlist = getAdjNodes( getNode(id) );
     for(list<Edge>::const_iterator itr = Adjlist.begin(); itr != Adjlist.end(); ++itr ){
-        if(a == itr->getDestination() )
+        if(a == getNode(itr->getDestination()) )
             return true;
-    }
+    } 
     return false;
 }
 
@@ -239,7 +233,7 @@ vector<string> split(const string& a){
         }
     }
 	Line.push_back( a.substr(0,TabLoc[0]) );
-	Line.push_back( a.substr(TabLoc[0]+1,TabLoc[1]) );
+	Line.push_back( a.substr(TabLoc[0]+1,TabLoc[1]-TabLoc[0]-1) );
 	Line.push_back(a.substr(TabLoc[1]+1, a.size() ) );
     return Line;
 }
@@ -310,10 +304,10 @@ void Graph::save( const string & file ){
 			for (list<Edge>::const_iterator itr = neighbors.begin(); itr != neighbors.end(); ++itr){
 				list<Edge>::const_iterator Nitr = itr;
 				if ( i + 1 == m_nodes.size() && ++Nitr == neighbors.end()){
-					OFile << getNodeAt(i).name() << "\t" << itr->getDestination().name();
+					OFile << getNodeAt(i).name() << "\t" << getNode(itr->getDestination()).name() ;
 				}
 				else {
-					OFile << getNodeAt(i).name() << "\t" << itr->getDestination().name() << "\n";
+					OFile << getNodeAt(i).name() << "\t" << getNode(itr->getDestination()).name() << "\n";
 				}
 			}
         }
@@ -343,7 +337,7 @@ void Graph::saveRev(const string & file) {
 
 ostream& operator<<(ostream & out, const Graph & g){
     out << "Nodes in "<< ( ( g.Directed )? "Directed" : "Undirected") << " graph: " << endl ;
-	out << "Nodes:";
+	out << "Nodes: ";
 	for (unsigned i = 0; i < g.num_nodes(); i++) {
 		if (i + 1 == g.num_nodes()) {
 			out << g.m_nodes[i].name();
@@ -361,9 +355,9 @@ ostream& operator<<(ostream & out, const Graph & g){
                 itr!= neighbors.end( ) ; ++itr ) {
 				list<Edge>::const_iterator BEnd = itr;
 				if (++BEnd == neighbors.end()) {
-					out << itr->getDestination().name();
+					out << g.getNode(itr->getDestination()).name() ;
 				}else
-					out << itr->getDestination().name() << ", " ;
+					out << g.getNode(itr->getDestination()).name() << ", " ;
             }
         out << endl;
     }

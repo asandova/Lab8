@@ -29,13 +29,12 @@ public:
         bool operator!=(const Node & b)const;
         bool operator>(const Node & b)const;
         bool operator<(const Node & b)const;
-
+		//const Node operator=(const Node b);
 
         int id()const;
         void setID(int id);
 		void setDist(double d);
 		double Dist()const;
-		void setPrev(Node & p);
         const string & name()const;
 };
 #endif // NODE_H
