@@ -3,6 +3,8 @@
 
 #include <vector>
 
+using namespace std;
+
 template<typename T>
 class MinHeapQueue
 {
@@ -15,7 +17,7 @@ public:
 	bool isEmpty()const;
 	void decreaseKey();
 private:
-	vector<T> QueueVec;
+	typename vector<T> QueueVec;
 };
 #endif // !HEAPPRIORITYQUEUE_H
 

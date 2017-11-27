@@ -15,39 +15,39 @@ struct lesser {
 };
 
 template<typename T>
-MinHeapQueue::MinHeapQueue() {
+MinHeapQueue<T>::MinHeapQueue() {
 	QueueVec = vector<T>();
 	make_heap(QueueVec.begin(), QueueVec.end(), lesser());
 }
 template<typename T>
-MinHeapQueue::MinHeapQueue(T& t) {
+MinHeapQueue<T>::MinHeapQueue(T& t) {
 	QueueVec = vector<T>();
 	QueueVec.push_back(t);
 	make_heap(QueueVec.begin(), QueueVec.end(), lesser());
 }
 
 template<typename T>
-void MinHeapQueue::Insert(T &t) {
+void MinHeapQueue<T>::Insert(T &t) {
 	QueueVec.push_back(t);
 	push_heap(QueueVec.begin(), QueueVec.end(), lesser());
 }
 template<typename T>
-void MinHeapQueue::RemoveMin() {
+void MinHeapQueue<T>::RemoveMin() {
 	QueueVec.pop_back(t);
 	pop_heap(QueueVec.begin(), QueueVec.end(), lesser());
 }
 
 template<typename T>
-T& MinHeapQueue::Front()const{
+T& MinHeapQueue<T>::Front()const{
 	return QueueVec.front();
 }
 
 template<typename T>
-bool MinHeapQueue::isEmpty()const{
+bool MinHeapQueue<T>::isEmpty()const{
 	return !QueueVec.empty();
 }
 
 template<typename T>
-void MinHeapQueue::decreaseKey() {
+void MinHeapQueue<T>::decreaseKey() {
 	
 }

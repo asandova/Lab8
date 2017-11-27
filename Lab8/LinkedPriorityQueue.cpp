@@ -54,7 +54,7 @@ void LinkedPQueue<T>::decreaseKey() {
 }
 
 template<typename T>
-void LinkedPQueue<T>::siftDown(size_t I, list<T>::iterator n) {
+void LinkedPQueue<T>::siftDown(size_t I, typename list<T>::iterator n) {
 
 	if (I * 2 <= PQueue.size() ) {
 		list<T>::interator L = n;
@@ -80,7 +80,7 @@ void LinkedPQueue<T>::siftDown(size_t I, list<T>::iterator n) {
 }
 
 template<typename T>
-void LinkedPQueue<T>::siftUp(size_t I, list<T>::iterator n) {
+void LinkedPQueue<T>::siftUp(size_t I, typename list<T>::iterator n) {
 
 	if (I == 0)
 		return;

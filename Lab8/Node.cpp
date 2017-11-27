@@ -26,6 +26,14 @@ Node::Node(const string & name, int id){
         m_id = id;
 		dist = numeric_limits<double>::infinity();
 }
+Node::Node(const string & name, int id, double lat, double lon) {
+	m_name = name;
+	m_id = id;
+	dist = numeric_limits<double>::infinity();
+	Latitude = lat;
+	Longitude = lon;
+}
+
 
 int Node::id()const{
     return m_id;

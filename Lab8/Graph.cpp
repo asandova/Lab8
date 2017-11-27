@@ -13,6 +13,7 @@
 #include <list>
 #include <fstream>
 #include <cstring>
+#include <math.h>
 
 #include "Graph.h"
 using namespace std;
@@ -56,26 +57,8 @@ void Graph::addEdge ( const Node & a , const Node & b, double d ) {
         //the node is not already in the list
             //and inserts the nodes in alphabetical order
 	//cout << "adding edge:" << a << " to " << b << endl;
-	if( m_adjList[ a.id() ].empty() ){
-		m_adjList[ a.id() ].push_back( Edge( a.id() , b.id(), d) );
-		//cout << "created edge: " << a << " to " << b << endl;
-		if (Directed)
-			return;
-    }
-    else if(!NodeExistAdj( b, a.id() ) ){
+    if(!NodeExistAdj( b, a.id() ) ){
         //list<Node*> adjList = getAdjNodes(a);
-		if (  getNodeAt(m_adjList[ a.id() ].front().getDestination() )  > b ) {
-			m_adjList[a.id()].push_front( Edge(a.id(),b.id(), d) );
-			//cout << "created edge: " << a << " to " << b << endl;
-			return;
-		}
-        for(list<Edge>::iterator itr = m_adjList[ a.id() ].begin(); itr != m_adjList[ a.id() ].end(); ++itr){
-			if( getNodeAt( itr->getDestination() ) > b){
-				m_adjList[a.id()].insert(itr, Edge(a.id(), b.id(), d) );
-				//cout << "created edge: " << a << " to " << b << endl;
-                return;
-            }
-        }
         m_adjList[a.id()].push_back( Edge(a.id(), b.id(), d ) );
 		if (Directed)
 			return;
@@ -83,26 +66,11 @@ void Graph::addEdge ( const Node & a , const Node & b, double d ) {
 	//cout << "edge " << a << " to " << b << " already exists" << endl;
 	//adds the edge from B to A if the graph is undirected
     if(!Directed){
-		if (m_adjList[b.id()].empty()) {
-			m_adjList[b.id()].push_back(Edge(b.id(), a.id(), d));
-			//cout << "created edge: " << a << " to " << b << endl;
+		if (!NodeExistAdj(a, b.id())) {
+			m_adjList[b.id()].push_front(Edge(b.id(), a.id(), d));
+			//cout << "created edge: " << b << " to " << a << endl;
 		}
-		else if (!NodeExistAdj(a, b.id())) {
-			if ( getNode(m_adjList[b.id()].front().getDestination()) > a) {
-				m_adjList[b.id()].push_front(Edge(b.id(), a.id(), d));
-				//cout << "created edge: " << b << " to " << a << endl;
-				return;
-			}
-			for (list<Edge>::iterator itr = m_adjList[b.id()].begin(); itr != m_adjList[b.id()].end(); ++itr) {
-				if ( getNode(itr->getDestination())  > a) {
-					m_adjList[b.id()].insert(itr, Edge(b.id(), a.id(), d));
-					//cout << "created edge: " << a << " to " << b << endl;
-					return;
-				}
-			}
-		}
-    }//end of if directed
-
+	}//end of if directed
 }//end of add edge
 
 //Insert a node a to m_nodes
@@ -111,28 +79,12 @@ void Graph::addNode ( const Node & a ) {
     ///if the node does not already exist
     //checking is the node is already in the vector
 	//cout << "adding Node " << a << endl;
-	if (m_nodes.empty()) {
-		m_nodes.push_back(a);
-		list<Edge> adj = list<Edge>();
-		m_adjList.push_back(adj);
-		return;
-	}
-    else if( !NodeExist(a.name() ) ){
+    if( !NodeExist(a.name() ) ){
 		//creating adjecency list for new Node
 		list<Edge> adj = list<Edge>();
 		m_adjList.push_back(adj);
-
-		//inserting new Node
-		for (vector<Node>::iterator itr = m_nodes.begin(); itr != m_nodes.end(); ++itr) {
-			if (*itr > a) {
-				m_nodes.insert(itr, a);
-				return;
-			}
-		}
 		m_nodes.push_back(a);
-		return;//for debug
     }
-	//cout << "Node " << a << " already exists" << endl;
 }
 
 bool Graph::NodeExistAdj(const Node& a, size_t id)const{
@@ -238,6 +190,20 @@ vector<string> split(const string& a){
     return Line;
 }
 
+vector<string> split3(const string& a) {
+	vector<string> Line;
+	//size_t TabLoc[2];
+	size_t tab = 0;
+	for (size_t i = 0; i < a.size() - 1; i++) {
+		if (a[i] == ' ') {
+			Line.push_back(a.substr(0, i));
+			Line.push_back(a.substr(i + 1, a.size()));
+			break;
+		}
+	}
+	return Line;
+}
+
 // Create a graph from a tab−separated text edge list file
 // to adjacency lists
 void Graph::scan ( const string & file ){
@@ -290,6 +256,44 @@ void Graph::scan ( const string & file ){
         cout << "File: " << file << " does not exist" << endl;
     }//end of else
 }//end of scan
+
+void Graph::scanTMG(const string& file) {
+	string fline;
+	ifstream iFile;
+
+	iFile.open(file.c_str(), ifstream::in);
+	int line = 0;
+	int numVert = 0;
+	int numEdges = 0;
+	if (iFile.is_open()) {
+		while (!iFile.eof()) {
+			getline(iFile, fline);
+			vector<string> tline = split3(fline);
+			if (line == 2) {
+				vector<string> nums = split(fline);
+				numVert = atoi(nums[0].c_str());
+				numEdges = atoi(nums[1].c_str());
+				m_nodes.reserve(numVert);
+			}
+			else if (line < numVert + 2) {
+
+				m_nodes[line - 2] = Node(tline[0],line - 1, atof(tline[1].c_str()) , atof(tline[2].c_str() ) ); 
+			}
+			else {
+				int N1ID = atoi(tline[0].c_str());
+				int N2ID = atoi(tline[1].c_str());
+				addEdge( getNodeAt( N1ID), getNodeAt( N1ID ), findDist( getNodeAt(N1ID), getNodeAt(N2ID) ) );
+			}
+
+			//cout << fline << endl;
+		}
+		iFile.close();
+	}
+	else {
+		cout << "cannot open file" << endl;
+	}
+
+}
 
 // Save a graph from adjacency lists to a tab−separated
 // text edge list file
@@ -362,5 +366,14 @@ ostream& operator<<(ostream & out, const Graph & g){
         out << endl;
     }
     return out;
+}
+
+double Graph::findDist( Node & a, Node& b)const {
+	double latDif, LongDif, A, C;
+	latDif = b.Lat() - a.Lat();
+	LongDif = b.Long() - a.Long();
+	A = pow(sin(latDif / 2), 2) + cos(a.Lat()) * cos(b.Lat()) * pow(sin(LongDif / 2), 2);
+	C = 2 * atan2(sqrt(A), sqrt( 1 - A ));
+	return 3961 * C;
 }
 

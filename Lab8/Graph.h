@@ -71,11 +71,13 @@ class Graph{
         // Create a graph from a tab−separated text edge list file
         // t o adjacency lists
         void scan ( const string & file ) ; //defined
+		void scanTMG(const string & file);
 
         // Save a graph from adjacency lists to a tab−separated
         // text edge list file
         void save ( const string & file ) ; //defined
 		//void saveRev(const string & file);
-
+	private:
+		double findDist(Node& a, Node& b)const;
 };
 #endif // GRAPH_H

@@ -8,11 +8,6 @@
 
 using namespace std;
 
-struct LongLat {
-	double Long;
-	double Lat;
-};
-
 vector<string> split2(const string& a) {
 	vector<string> Line;
 	size_t TabLoc[2];
@@ -30,7 +25,7 @@ vector<string> split2(const string& a) {
 }
 vector<string> split3(const string& a) {
 	vector<string> Line;
-	size_t TabLoc[2];
+	//size_t TabLoc[2];
 	size_t tab = 0;
 	for (size_t i = 0; i < a.size() - 1; i++) {
 		if (a[i] == ' ') {
@@ -45,7 +40,6 @@ vector<string> split3(const string& a) {
 void TMGtoGraph::toGraph(const string & fname){
 	string fline;
 	ifstream iFile;
-	vector<LongLat> coords = vector<LongLat>();
 
 	iFile.open(fname.c_str(), ifstream::in);
 	int line = 0;
@@ -61,7 +55,7 @@ void TMGtoGraph::toGraph(const string & fname){
 				coords.reserve(numVert);
 			}
 			else if (line < numVert + 2) {
-
+				
 			}
 			else {
 				
@@ -77,5 +71,5 @@ void TMGtoGraph::toGraph(const string & fname){
 
 }
 double TMGtoGraph::findDistance(double l, double lat) {
-
+	return numeric_limits<double>::infinity();
 }
