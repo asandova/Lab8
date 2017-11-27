@@ -64,13 +64,13 @@ void Graph::addEdge ( const Node & a , const Node & b, double d ) {
     }
     else if(!NodeExistAdj( b, a.id() ) ){
         //list<Node*> adjList = getAdjNodes(a);
-		if (  getNode(m_adjList[ a.id() ].front().getDestination() )  > b ) {
+		if (  getNodeAt(m_adjList[ a.id() ].front().getDestination() )  > b ) {
 			m_adjList[a.id()].push_front( Edge(a.id(),b.id(), d) );
 			//cout << "created edge: " << a << " to " << b << endl;
 			return;
 		}
         for(list<Edge>::iterator itr = m_adjList[ a.id() ].begin(); itr != m_adjList[ a.id() ].end(); ++itr){
-			if( getNode( itr->getDestination() ) > b){
+			if( getNodeAt( itr->getDestination() ) > b){
 				m_adjList[a.id()].insert(itr, Edge(a.id(), b.id(), d) );
 				//cout << "created edge: " << a << " to " << b << endl;
                 return;

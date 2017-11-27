@@ -17,6 +17,8 @@ const Node Node::NULL_NODE = Node();
 Node::Node(){
     m_name = "NULL";
 	dist = numeric_limits<double>::infinity();
+	Latitude = 0.0;
+	Longitude = 0.0;
 }
 
 Node::Node(const string & name, int id){
@@ -44,6 +46,28 @@ double Node::Dist() const{
 	return dist;
 }
 
+void Node::setPreID(int id) {
+	preID = id;
+}
+
+int Node::PreID() {
+	return preID;
+}
+
+void Node::setLat(double l) {
+	Latitude = l;
+}
+double Node::Lat() {
+	return Latitude;
+}
+void Node::setLong(double l) {
+	Longitude = l;
+}
+double Node::Long() {
+	return Longitude;
+}
+
+
 //comparison operator overloading
 
 ostream& operator<<(ostream & out, const Node & n){
@@ -66,7 +90,7 @@ bool Node::operator!=(const Node& b)const{
 //operators <,> will to Lexicographical comparison based on ascii values
 //so "a" < "b" because "a" = 97, "b"=98
 //and "A" < "a" because "A" = 65, "a" = 97
-
+/*
 bool Node::operator<(const Node& b)const{
     if( m_name <  b.name() )
         return true;
@@ -79,3 +103,4 @@ bool Node::operator>(const Node & b)const {
     else
         return false;
 }
+*/

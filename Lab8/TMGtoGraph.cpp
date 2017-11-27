@@ -56,8 +56,8 @@ void TMGtoGraph::toGraph(const string & fname){
 			getline(iFile, fline);
 			if (line == 2 ) {
 				vector<string> nums = split2(fline);
-				numVert = atof(nums[0].c_str());
-				numEdges = atof(nums[1].c_str());
+				numVert = atoi(nums[0].c_str());
+				numEdges = atoi(nums[1].c_str());
 				coords.reserve(numVert);
 			}
 			else if (line < numVert + 2) {
