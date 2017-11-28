@@ -15,12 +15,28 @@
 
 using namespace std;
 
+//[[Rcpp::export]]
+void wrapList(string& filename) {
+	Graph test = Graph(filename, true);
+	dijkstra::Dijkstra_list(test,test.getNode(0));
+}
+//[[Rcpp::export]]
+void wrapHeap(string& filename) {
+	Graph test = Graph(filename, true);
+	dijkstra::Dijkstra_heap(test, test.getNode(0));
+}
+
 void testall(){
 
 	Graph Tgraph("Graph1.txt",true);
-	cout << Tgraph << endl;
-	dijkstra::Dijkstra_heap(Tgraph, Tgraph.getNode(0));
-	cout << Tgraph << endl;
+	Graph Tgraph1("Graph1.txt", true);
+	//cout << Tgraph << endl;
+	//dijkstra::Dijkstra_heap(Tgraph, Tgraph.getNode(0));
+	//cout << Tgraph << endl;
+
+	cout << Tgraph1 << endl;
+	dijkstra::Dijkstra_list(Tgraph1, Tgraph1.getNode(0));
+	cout << Tgraph1 << endl;
 
 }
 
@@ -35,28 +51,16 @@ int main(){
 
 require("igraph")
 source("random_graph.R")
-source("main.cpp")
-#edges.num <- c(100,100,100,100,100)
-#nodes.num <- c(10000,12500,15000,17500,20000)
+edges.num <- c(100,200,300,400,500)
+nodes.num <- c(100,200,300,400,500)
  #edges.num <- c(100)
  #nodes.num <- c(100)
-runtime <- vector(length = 1)
-for(i in c(1:1)){
- random.graph(nodes.num[i], edges.num[i], "Lab6_Test.txt")
+runtime <- vector(length = 5)
+for(i in c(1:5)){
+ random.graph(nodes.num[i], edges.num[i], "Lab8_Test.txt")
 
-  #links <- read.table("Lab6_Test.txt", header = F, quote = "", stringsAsFactors = F)
-  #names(links) <- c("from", "to")
-  #links <- data.frame( from=c("a", "a", "c", "d", "e" ),
-  #                                         to = c("d", "b", "b", "c", "a"))
-  #net <- graph_from_data_frame(d=links, directed=T)
-  #plot(net, vertex.size=30, vertex.label.cex=2)
-
-  #net <- graph_from_data_frame(d=links, directed=F)
-  #plot(net, vertex.size=30,vertex.label.cex=2)
-
-  runtime[i] <- system.time(wrapStrCon("Lab6_Test.txt") )["user.self"]
-  plot( 20 ,runtime, type="b", xlab="n", ylab = "runtime (seconds)")
- 
+  runtime[i] <- system.time(warpList("Lab8_Test.txt") )["user.self"]
+  #runtime[i] <- system.time(warpHeap("Lab8_Test.txt") )["user.self"]
 }
- 
+  plot( 20 ,runtime, type="b", xlab="n", ylab = "runtime (seconds)")
 */

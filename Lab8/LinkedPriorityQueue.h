@@ -2,6 +2,7 @@
 #define LINKEDPRIOITYQUEUE_H
 
 #include <list>
+#include <vector>
 #include "Node.h"
 using namespace std;
 
@@ -10,7 +11,7 @@ class LinkedPQueue
 {
 public:
 	LinkedPQueue();
-	LinkedPQueue(Node& t);
+	LinkedPQueue(Node& t, vector<Node>& ns);
 	void Insert(Node& t);
 	void RemoveMin();
 	Node Front()const;

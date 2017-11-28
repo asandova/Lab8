@@ -168,6 +168,10 @@ const list <Edge> & Graph::getAdjNodes ( const Node & a ) const{
     return m_adjList [ a.id ( ) ] ;
 }
 
+vector<Node>& Graph::getAllNodes() {
+	return m_nodes;
+}
+
 // Return the total number of nodes i n the graph
 size_t Graph::num_nodes ( ) const {
     return m_nodes.size( ) ;

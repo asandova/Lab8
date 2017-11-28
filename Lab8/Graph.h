@@ -63,6 +63,8 @@ class Graph{
         // Return reference of the adjacency list of node a
         list <Edge> & getAdjNodes ( const Node & a );//defined
 
+		vector<Node>& getAllNodes();
+
         // Return constant reference to adjacency list of node a
         const list <Edge> & getAdjNodes ( const Node & a ) const; //defined
         // Return the total number of nodes i n the graph

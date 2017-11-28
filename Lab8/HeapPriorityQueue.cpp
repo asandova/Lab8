@@ -9,7 +9,7 @@ using namespace std;
 //template<typename T>
 struct lesser {
 	bool operator() (const Node& e1, const Node& e2)const {
-		if (e1 < e2)return true;
+		if (e1 > e2)return true;
 		else return false;
 	}
 };
@@ -20,9 +20,14 @@ MinHeapQueue::MinHeapQueue() {
 	make_heap(QueueVec.begin(), QueueVec.end(), lesser());
 }
 //template<typename T>
-MinHeapQueue::MinHeapQueue(Node& t) {
+MinHeapQueue::MinHeapQueue(Node& s, vector<Node>& ns ) {
 	QueueVec = vector<Node>();
-	QueueVec.push_back(t);
+	s.setDist(0);
+	QueueVec.push_back(s);
+	for (vector<Node>::iterator itr = ns.begin(); itr != ns.end(); ++itr) {
+		if(*itr != s )
+			QueueVec.push_back(*itr);
+	}
 	make_heap(QueueVec.begin(), QueueVec.end(), lesser());
 }
 
@@ -44,7 +49,7 @@ Node MinHeapQueue::Front()const{
 
 //template<typename T>
 bool MinHeapQueue::isEmpty()const{
-	return !QueueVec.empty();
+	return QueueVec.empty();
 }
 
 //template<typename T>
@@ -52,9 +57,10 @@ void MinHeapQueue::decreaseKey(Node& E, double dist) {
 	Node temp;
 	for (vector<Node>::iterator itr = QueueVec.begin(); itr != QueueVec.end(); ++itr) {
 		if (*itr == E) {
-			itr->setDist(dist);
-			QueueVec.push_back(*itr);
+			temp = *itr;
+			temp.setDist(dist);
 			QueueVec.erase(itr);
+			QueueVec.push_back(temp);
 			sort_heap(QueueVec.begin(), QueueVec.end(), lesser());
 			break;
 		}

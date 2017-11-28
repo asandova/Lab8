@@ -17,9 +17,14 @@ LinkedPQueue::LinkedPQueue() {
 }
 
 //template<typename T>
-LinkedPQueue::LinkedPQueue(Node &t) {
+LinkedPQueue::LinkedPQueue(Node &s, vector<Node>& ns) {
 	PQueue = list<Node>();
-	PQueue.push_back(t);
+	s.setDist(0);
+	PQueue.push_back(s);
+	for (vector<Node>::iterator itr = ns.begin(); itr != ns.end(); ++itr) {
+		if (*itr != s)
+			PQueue.push_back(*itr);
+	}
 }
 
 //template<typename T>
@@ -35,7 +40,7 @@ void LinkedPQueue::RemoveMin() {
 	PQueue.pop_back();
 	PQueue.push_front(Ttemp);
 	list<Node>::iterator n = PQueue.begin();
-	siftDown(0, n );
+	siftDown(1, n );
 }
 
 //template<typename T>
@@ -45,7 +50,7 @@ Node LinkedPQueue::Front()const {
 
 //template<typename T>
 bool LinkedPQueue::isEmpty()const {
-	return !PQueue.empty();
+	return PQueue.empty();
 }
 
 //need to revise
@@ -72,6 +77,7 @@ void LinkedPQueue::siftDown(size_t I, list<Node>::iterator n) {
 	if (I * 2 <= PQueue.size() ) {
 		list<Node>::iterator L = n;
 		for ( i = I; i <= I * 2; ++L);
+
 		if (*n > *L) {
 			Node temp = *n;
 			*n = *L;
@@ -79,9 +85,9 @@ void LinkedPQueue::siftDown(size_t I, list<Node>::iterator n) {
 		}
 		siftDown(i, L);
 	}
-	if (I * 2 <= PQueue.size()) {
+	if (I * 2 + 1 <= PQueue.size()) {
 		list<Node>::iterator R = n;
-		for (size_t i = I; i <= I * 2; ++R);
+		for (size_t i = I; i <= I * 2 + 1; ++R);
 		if (*n > *R) {
 			Node temp = *n;
 			*n = *R;

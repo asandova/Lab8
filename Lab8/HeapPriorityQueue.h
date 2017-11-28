@@ -10,7 +10,7 @@ class MinHeapQueue
 {
 public:
 	MinHeapQueue();
-	MinHeapQueue( Node & t);
+	MinHeapQueue(Node & t, vector<Node>& ns);
 	void Insert(Node &t);
 	void RemoveMin();
 	Node Front()const;
