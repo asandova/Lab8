@@ -42,6 +42,10 @@ Graph::Graph(const string& file){
 bool Graph::isDirected()const {
 	return Directed;
 }
+
+void Graph::setDirect(bool dir) {
+	Directed = dir;
+}
 /*
 void Graph::update(){
 	for (size_t i = 0; i < m_nodes.size(); i++) {
@@ -113,7 +117,7 @@ size_t Graph::findID(const string & name)const{
 
     Node curr;
     for(size_t i = 0; i < m_nodes.size(); i++){
-        curr = getNode(i);
+        curr = getNodeAt(i);
         if(curr.name() == name){
             return curr.id();
         }
@@ -183,7 +187,7 @@ vector<string> split(const string& a){
 	size_t TabLoc[2];
 	size_t tab = 0;
     for(size_t i = 0; i < a.size()-1; i++ ){
-        if(a[i] == '\t' && tab < 2){
+        if(a[i] == '\t' || a[i] == ' ' && tab < 2){
 			TabLoc[tab] = i;
 			tab++;
         }
@@ -194,12 +198,12 @@ vector<string> split(const string& a){
     return Line;
 }
 
-vector<string> split3(const string& a) {
+vector<string> split2(const string& a) {
 	vector<string> Line;
 	//size_t TabLoc[2];
 	size_t tab = 0;
 	for (size_t i = 0; i < a.size() - 1; i++) {
-		if (a[i] == ' ') {
+		if (a[i] == ' ' || a[i] == '\t') {
 			Line.push_back(a.substr(0, i));
 			Line.push_back(a.substr(i + 1, a.size()));
 			break;
@@ -269,27 +273,31 @@ void Graph::scanTMG(const string& file) {
 	int line = 0;
 	int numVert = 0;
 	int numEdges = 0;
+	vector<string> tline;
 	if (iFile.is_open()) {
 		while (!iFile.eof()) {
 			getline(iFile, fline);
-			vector<string> tline = split3(fline);
-			if (line == 1) {
-				vector<string> nums = split(fline);
-				numVert = atoi(nums[0].c_str());
-				numEdges = atoi(nums[1].c_str());
-				m_nodes.reserve(numVert);
+			
+			if (line > 0) {
+				if (line == 1) {
+					tline = split2(fline);
+					numVert = atoi(tline[0].c_str());
+					numEdges = atoi(tline[1].c_str());
+					m_nodes.reserve(numVert);
+				}
+				else if (line >= 2 && line < numVert + 2 ) {
+					tline = split(fline);
+					addNode( Node(tline[0], line - 2, atof( tline[1].c_str() ), atof(tline[2].c_str() ) ) );
+				}
+				else if (line >= numVert + 2){
+					tline = split(fline);
+					int N1ID = atoi(tline[0].c_str());
+					int N2ID = atoi(tline[1].c_str());
+					addEdge(getNodeAt(N1ID), getNodeAt(N1ID), findDist(getNodeAt(N1ID), getNodeAt(N2ID)));
+				}
+				//cout << fline << endl;
 			}
-			else if (line < numVert + 2) {
-
-				m_nodes[line - 2] = Node(tline[0],line - 1, atof(tline[1].c_str()) , atof(tline[2].c_str() ) ); 
-			}
-			else {
-				int N1ID = atoi(tline[0].c_str());
-				int N2ID = atoi(tline[1].c_str());
-				addEdge( getNodeAt( N1ID), getNodeAt( N1ID ), findDist( getNodeAt(N1ID), getNodeAt(N2ID) ) );
-			}
-
-			//cout << fline << endl;
+			line++;
 		}
 		iFile.close();
 	}
@@ -312,10 +320,10 @@ void Graph::save( const string & file ){
 			for (list<Edge>::const_iterator itr = neighbors.begin(); itr != neighbors.end(); ++itr){
 				list<Edge>::const_iterator Nitr = itr;
 				if ( i + 1 == m_nodes.size() && ++Nitr == neighbors.end()){
-					OFile << getNodeAt(i).name() << "\t" << getNode(itr->getDestination()).name() ;
+					OFile << getNodeAt(i).name() << "\t" << getNode(itr->getDestination()).name()  << "\t" << itr->getDistance();
 				}
 				else {
-					OFile << getNodeAt(i).name() << "\t" << getNode(itr->getDestination()).name() << "\n";
+					OFile << getNodeAt(i).name() << "\t" << getNode(itr->getDestination()).name() << "\t" << itr->getDistance() << "\n";
 				}
 			}
         }
@@ -365,7 +373,7 @@ ostream& operator<<(ostream & out, const Graph & g){
 				if (++BEnd == neighbors.end()) {
 					out << g.getNode(itr->getDestination()).name()<< "-" << itr->getDistance();
 				}else
-					out << g.getNode(itr->getDestination()).name()<< "-" << itr->getDestination() <<", " ;
+					out << g.getNode(itr->getDestination()).name()<< "-" << itr->getDistance() <<", " ;
             }
         out << endl;
     }

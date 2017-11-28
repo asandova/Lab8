@@ -38,7 +38,7 @@ void MinHeapQueue::Insert(Node &t) {
 }
 //template<typename T>
 void MinHeapQueue::RemoveMin() {
-	QueueVec.pop_back();
+	QueueVec.erase(QueueVec.begin());
 	pop_heap(QueueVec.begin(), QueueVec.end(),  lesser());
 }
 
@@ -61,7 +61,7 @@ void MinHeapQueue::decreaseKey(Node& E, double dist) {
 			temp.setDist(dist);
 			QueueVec.erase(itr);
 			QueueVec.push_back(temp);
-			sort_heap(QueueVec.begin(), QueueVec.end(), lesser());
+			make_heap(QueueVec.begin(), QueueVec.end(), lesser());
 			break;
 		}
 	}

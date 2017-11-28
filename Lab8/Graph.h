@@ -35,7 +35,7 @@ class Graph{
         Graph(const string & file);
         Graph(const string & file, bool dir);
 		bool isDirected()const;
-
+		void setDirect(bool dir);
         //Insert a edge ( a , b ) to m_adjList
         void addEdge ( const Node & a , const Node & b, double dist ) ;//defined - need to check
 

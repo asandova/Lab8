@@ -18,7 +18,7 @@ class dijkstra {
 public:
 	static void Dijkstra_list(Graph & G, Node & s);
 	static void Dijkstra_heap(Graph & G, Node & s);
-
+	static void Dijkstra_EC(Graph & G, Node& s, Node & d);
 };
 
 #endif // !DIJKSTRA_H

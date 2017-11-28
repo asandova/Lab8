@@ -34,9 +34,18 @@ void testall(){
 	//dijkstra::Dijkstra_heap(Tgraph, Tgraph.getNode(0));
 	//cout << Tgraph << endl;
 
-	cout << Tgraph1 << endl;
-	dijkstra::Dijkstra_list(Tgraph1, Tgraph1.getNode(0));
-	cout << Tgraph1 << endl;
+	//cout << Tgraph1 << endl;
+	//dijkstra::Dijkstra_list(Tgraph1, Tgraph1.getNode(0));
+	//cout << Tgraph1 << endl;
+
+	//extra credit
+	Graph ECGraph = Graph();
+	ECGraph.scanTMG("USA-country-simple.tmg");
+	ECGraph.save("EC_master.txt");
+	cout << "read complete" << endl;
+	int S_ID = ECGraph.findID("NM271@+X478507");
+	int E_ID = ECGraph.findID("US11_N/NY11C_N");
+	//dijkstra::Dijkstra_EC(ECGraph, ECGraph.getNodeAt(S_ID) , ECGraph.getNodeAt(E_ID));
 
 }
 
