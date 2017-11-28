@@ -269,7 +269,7 @@ void Graph::scanTMG(const string& file) {
 		while (!iFile.eof()) {
 			getline(iFile, fline);
 			vector<string> tline = split3(fline);
-			if (line == 2) {
+			if (line == 1) {
 				vector<string> nums = split(fline);
 				numVert = atoi(nums[0].c_str());
 				numEdges = atoi(nums[1].c_str());

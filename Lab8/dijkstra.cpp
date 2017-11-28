@@ -9,7 +9,9 @@
 
 #include "dijkstra.h"
 #include "HeapPriorityQueue.h"
+#include "HeapPriorityQueue.cpp"
 #include "LinkedPriorityQueue.h"
+#include "LinkedPriorityQueue.cpp"
 
 
 void dijkstra::Dijkstra_list(Graph & G, Node & s) {
@@ -25,7 +27,7 @@ void dijkstra::Dijkstra_list(Graph & G, Node & s) {
 			if (G.getNodeAt(e->getDestination()).Dist() > u.Dist() + e->getDistance()) {
 				G.getNodeAt(e->getDestination()).setDist(u.Dist() + e->getDistance());
 				G.getNodeAt(e->getDestination()).setPreID( u.id() );
-				H.decreaseKey();
+				H.decreaseKey(  );
 			}
 		}
 	}

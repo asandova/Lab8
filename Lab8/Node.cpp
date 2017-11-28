@@ -58,20 +58,20 @@ void Node::setPreID(int id) {
 	preID = id;
 }
 
-int Node::PreID() {
+int Node::PreID()const {
 	return preID;
 }
 
 void Node::setLat(double l) {
 	Latitude = l;
 }
-double Node::Lat() {
+double Node::Lat()const{
 	return Latitude;
 }
 void Node::setLong(double l) {
 	Longitude = l;
 }
-double Node::Long() {
+double Node::Long()const{
 	return Longitude;
 }
 
@@ -112,3 +112,21 @@ bool Node::operator>(const Node & b)const {
         return false;
 }
 */
+
+bool Node::operator<(const Node& b)const {
+	if (this->dist < b.Dist())
+		return true;
+	else return false;
+}
+bool Node::operator>(const Node& b)const {
+	if (this->dist > b.Dist())
+		return true;
+	else return false;
+}
+const Node Node::operator=(const Node& b) {
+	Node copy;
+	copy = Node(b.name(), b.id(), b.Lat(), b.Long());
+	copy.setPreID( b.PreID() );
+	copy.setDist( b.Dist() );
+	return copy;
+}

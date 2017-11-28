@@ -30,9 +30,9 @@ public:
         friend ostream& operator<<(ostream & out, const Node & n);
         bool operator==(const Node & b)const;
         bool operator!=(const Node & b)const;
-		//bool operator>(const Node & b)const;
-        //bool operator<(const Node & b)const;
-		//const Node operator=(const Node b);
+		bool operator>(const Node & b)const;
+        bool operator<(const Node & b)const;
+		const Node operator=(const Node& b);
 
         int id()const;
         void setID(int id);
@@ -41,13 +41,13 @@ public:
 		double Dist()const;
 
 		void setPreID(int id);
-		int PreID();
+		int PreID()const;
 
 		void setLat(double lat);
-		double Lat();
+		double Lat()const;
 
 		void setLong(double l);
-		double Long();
+		double Long()const;
 
 		const string & name()const;
 };

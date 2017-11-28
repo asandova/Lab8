@@ -6,48 +6,48 @@
 using namespace std;
 
 
-template<typename T>
+//template<typename T>
 struct lesser {
-	bool operator() (const T& e1, const T& e2)const {
+	bool operator() (const Node& e1, const Node& e2)const {
 		if (e1 < e2)return true;
 		else return false;
 	}
 };
 
-template<typename T>
-MinHeapQueue<T>::MinHeapQueue() {
-	QueueVec = vector<T>();
+//template<typename T>
+MinHeapQueue::MinHeapQueue() {
+	QueueVec = vector<Node>();
 	make_heap(QueueVec.begin(), QueueVec.end(), lesser());
 }
-template<typename T>
-MinHeapQueue<T>::MinHeapQueue(T& t) {
-	QueueVec = vector<T>();
+//template<typename T>
+MinHeapQueue::MinHeapQueue(Node& t) {
+	QueueVec = vector<Node>();
 	QueueVec.push_back(t);
 	make_heap(QueueVec.begin(), QueueVec.end(), lesser());
 }
 
-template<typename T>
-void MinHeapQueue<T>::Insert(T &t) {
+//template<typename T>
+void MinHeapQueue::Insert(Node &t) {
 	QueueVec.push_back(t);
 	push_heap(QueueVec.begin(), QueueVec.end(), lesser());
 }
-template<typename T>
-void MinHeapQueue<T>::RemoveMin() {
-	QueueVec.pop_back(t);
-	pop_heap(QueueVec.begin(), QueueVec.end(), lesser());
+//template<typename T>
+void MinHeapQueue::RemoveMin() {
+	QueueVec.pop_back();
+	pop_heap(QueueVec.begin(), QueueVec.end(),  lesser());
 }
 
-template<typename T>
-T& MinHeapQueue<T>::Front()const{
+//template<typename T>
+Node MinHeapQueue::Front()const{
 	return QueueVec.front();
 }
 
-template<typename T>
-bool MinHeapQueue<T>::isEmpty()const{
+//template<typename T>
+bool MinHeapQueue::isEmpty()const{
 	return !QueueVec.empty();
 }
 
-template<typename T>
-void MinHeapQueue<T>::decreaseKey() {
+//template<typename T>
+void MinHeapQueue::decreaseKey(Node& E, double dist) {
 	
 }

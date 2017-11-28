@@ -2,24 +2,24 @@
 #define LINKEDPRIOITYQUEUE_H
 
 #include <list>
-
+#include "Node.h"
 using namespace std;
 
-template<typename T>
+//template<typename T>
 class LinkedPQueue
 {
 public:
 	LinkedPQueue();
-	LinkedPQueue(T &t);
-	void Insert(T &t);
+	LinkedPQueue(Node& t);
+	void Insert(Node& t);
 	void RemoveMin();
-	T& Front()const;
+	Node Front()const;
 	bool isEmpty()const;
-	void decreaseKey();
+	void decreaseKey(Node& E, double dist);
 private:
-	void siftDown(size_t I , typename list<T>::iterator n );
-	void siftUp(  size_t I , typename list<T>::iterator n );
-	typename list<T> PQueue;
+	void siftDown(size_t I , list<Node>::iterator n );
+	void siftUp(  size_t I , list<Node>::iterator n );
+	list<Node> PQueue;
 };
 
 #endif // !LINKEDPRIOITYQUEUE_H

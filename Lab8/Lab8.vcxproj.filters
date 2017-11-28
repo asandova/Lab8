@@ -33,9 +33,6 @@
     <ClInclude Include="Edge.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TMGtoGraph.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graph.cpp">
@@ -54,9 +51,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Edge.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TMGtoGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HeapPriorityQueue.cpp">
@@ -79,5 +73,10 @@
     <Text Include="Graph5.txt">
       <Filter>Resource Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tm-master-simple.tmg">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

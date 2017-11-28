@@ -117,7 +117,6 @@
     <ClInclude Include="HeapPriorityQueue.h" />
     <ClInclude Include="LinkedPriorityQueue.h" />
     <ClInclude Include="Node.h" />
-    <ClInclude Include="TMGtoGraph.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dijkstra.cpp" />
@@ -127,7 +126,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="HeapPriorityQueue.cpp" />
-    <ClCompile Include="TMGtoGraph.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Graph1.txt" />
@@ -135,6 +133,9 @@
     <Text Include="Graph3.txt" />
     <Text Include="Graph4.txt" />
     <Text Include="Graph5.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tm-master-simple.tmg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

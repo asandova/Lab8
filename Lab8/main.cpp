@@ -11,7 +11,6 @@
 
 #include "Node.h"
 #include "Graph.h"
-#include "TMGtoGraph.h"
 
 using namespace std;
 
@@ -19,7 +18,6 @@ void testall(){
 
 	//Graph Tgraph("Graph1.txt");
 	//cout << Tgraph << endl;
-	TMGtoGraph::toGraph("tm-master-simple.tmg");
 
 }
 

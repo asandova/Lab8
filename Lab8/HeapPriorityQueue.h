@@ -2,22 +2,22 @@
 #define HEAPPRIORITYQUEUE_H
 
 #include <vector>
-
+#include "Node.h"
 using namespace std;
 
-template<typename T>
+//template<typename T>
 class MinHeapQueue
 {
 public:
 	MinHeapQueue();
-	MinHeapQueue(T& t);
-	void Insert(T &t);
+	MinHeapQueue( Node & t);
+	void Insert(Node &t);
 	void RemoveMin();
-	T& Front()const;
+	Node Front()const;
 	bool isEmpty()const;
-	void decreaseKey();
+	void decreaseKey(Node& E, double dist);
 private:
-	typename vector<T> QueueVec;
+	typename vector<Node> QueueVec;
 };
 #endif // !HEAPPRIORITYQUEUE_H
 
