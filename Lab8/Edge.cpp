@@ -27,6 +27,11 @@ double Edge::getDistance()const{
 	return Dist;
 }
 
+ostream& operator<<(ostream& out, Edge& e) {
+	out << " (" << e.getSource() << "->" << e.getDestination() << ")= " << e.getDistance();
+	return out;
+}
+
 bool Edge::operator==(const Edge& E)const {
 	//returns true of the edge is connected to the same nodes regardless of which is the source and destination
 	//the reason is that it is the same edge in a indirected graph

@@ -32,7 +32,7 @@ public:
         bool operator!=(const Node & b)const;
 		bool operator>(const Node & b)const;
         bool operator<(const Node & b)const;
-		const Node operator=(const Node& b);
+		//const Node operator=(const Node& b);
 
         int id()const;
         void setID(int id);

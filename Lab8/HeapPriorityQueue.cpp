@@ -49,5 +49,14 @@ bool MinHeapQueue::isEmpty()const{
 
 //template<typename T>
 void MinHeapQueue::decreaseKey(Node& E, double dist) {
-	
+	Node temp;
+	for (vector<Node>::iterator itr = QueueVec.begin(); itr != QueueVec.end(); ++itr) {
+		if (*itr == E) {
+			itr->setDist(dist);
+			QueueVec.push_back(*itr);
+			QueueVec.erase(itr);
+			sort_heap(QueueVec.begin(), QueueVec.end(), lesser());
+			break;
+		}
+	}
 }

@@ -344,10 +344,10 @@ ostream& operator<<(ostream & out, const Graph & g){
 	out << "Nodes: ";
 	for (unsigned i = 0; i < g.num_nodes(); i++) {
 		if (i + 1 == g.num_nodes()) {
-			out << g.m_nodes[i].name();
+			out << g.m_nodes[i].name() << "(" << g.m_nodes[i].Dist() << ")" ;
 		}
 		else {
-		out << g.m_nodes[i].name() << ", ";
+		out << g.m_nodes[i].name() << "(" << g.m_nodes[i].Dist() << "), ";
 		}
     }
 	out << endl;
@@ -359,9 +359,9 @@ ostream& operator<<(ostream & out, const Graph & g){
                 itr!= neighbors.end( ) ; ++itr ) {
 				list<Edge>::const_iterator BEnd = itr;
 				if (++BEnd == neighbors.end()) {
-					out << g.getNode(itr->getDestination()).name() ;
+					out << g.getNode(itr->getDestination()).name()<< "-" << itr->getDistance();
 				}else
-					out << g.getNode(itr->getDestination()).name() << ", " ;
+					out << g.getNode(itr->getDestination()).name()<< "-" << itr->getDestination() <<", " ;
             }
         out << endl;
     }

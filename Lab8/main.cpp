@@ -11,13 +11,16 @@
 
 #include "Node.h"
 #include "Graph.h"
+#include "dijkstra.h"
 
 using namespace std;
 
 void testall(){
 
-	//Graph Tgraph("Graph1.txt");
-	//cout << Tgraph << endl;
+	Graph Tgraph("Graph1.txt",true);
+	cout << Tgraph << endl;
+	dijkstra::Dijkstra_heap(Tgraph, Tgraph.getNode(0));
+	cout << Tgraph << endl;
 
 }
 

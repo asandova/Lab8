@@ -18,7 +18,7 @@ public:
 	void decreaseKey(Node& E, double dist);
 private:
 	void siftDown(size_t I , list<Node>::iterator n );
-	void siftUp(  size_t I , list<Node>::iterator n );
+	void siftUp(  size_t I , list<Node>::reverse_iterator n );
 	list<Node> PQueue;
 };
 

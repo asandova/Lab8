@@ -17,7 +17,7 @@ public:
 	bool isEmpty()const;
 	void decreaseKey(Node& E, double dist);
 private:
-	typename vector<Node> QueueVec;
+	vector<Node> QueueVec;
 };
 #endif // !HEAPPRIORITYQUEUE_H
 

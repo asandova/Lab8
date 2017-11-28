@@ -123,10 +123,7 @@ bool Node::operator>(const Node& b)const {
 		return true;
 	else return false;
 }
+/*
 const Node Node::operator=(const Node& b) {
-	Node copy;
-	copy = Node(b.name(), b.id(), b.Lat(), b.Long());
-	copy.setPreID( b.PreID() );
-	copy.setDist( b.Dist() );
-	return copy;
-}
+	return b;
+}*/

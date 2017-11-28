@@ -62,7 +62,8 @@ void LinkedPQueue::decreaseKey(Node& E, double dist) {
 	}
 	temp.setDist(dist);
 	PQueue.push_back(temp);
-	siftUp( PQueue.size() , n = PQueue.rbegin() );
+	list<Node>::reverse_iterator r;
+	siftUp( PQueue.size() , r = PQueue.rbegin() );
 }
 
 //template<typename T>
@@ -92,13 +93,13 @@ void LinkedPQueue::siftDown(size_t I, list<Node>::iterator n) {
 }
 
 //template<typename T>
-void LinkedPQueue::siftUp(size_t I, list<Node>::iterator n) {
+void LinkedPQueue::siftUp(size_t I, list<Node>::reverse_iterator n) {
 
 	if (I == 0)
 		return;
 	else {
 		size_t dif = I - (I / 2);
-		typename list<Node>::iterator R;
+		list<Node>::reverse_iterator R;
 		for (R = n; dif != 0; ++R , dif--);
 		if (*n < *R) {
 			Node temp = *n;
