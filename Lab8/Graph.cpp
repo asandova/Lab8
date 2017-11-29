@@ -14,6 +14,7 @@
 #include <fstream>
 #include <cstring>
 #include <math.h>
+#include <stdlib.h>
 
 #include "Graph.h"
 using namespace std;
@@ -151,7 +152,7 @@ Node & Graph::getNode(size_t id) {
 			return m_nodes[i];
 	}
 	//should never get here
-	//return Node::NULL_NODE;
+	return m_nodes[0];
 }
 
 Node& Graph::getNodeAt(size_t i) {
@@ -287,7 +288,11 @@ void Graph::scanTMG(const string& file) {
 				}
 				else if (line >= 2 && line < numVert + 2 ) {
 					tline = split(fline);
-					addNode( Node(tline[0], line - 2, atof( tline[1].c_str() ), atof(tline[2].c_str() ) ) );
+					list<Edge> adj = list<Edge>();
+					m_adjList.push_back(adj);
+					m_nodes.push_back( Node(tline[0], line - 2, atof(tline[1].c_str()), atof(tline[2].c_str() ) ) );
+
+					//addNode( Node(tline[0], line - 2, atof( tline[1].c_str() ), atof(tline[2].c_str() ) ) );
 				}
 				else if (line >= numVert + 2){
 					tline = split(fline);
@@ -329,27 +334,6 @@ void Graph::save( const string & file ){
         }
         OFile.close();
 }
-/*
-void Graph::saveRev(const string & file) {
-	//NOTE: the method assumes the file does not exist and will overwrite
-	// if the file does exist
-	//cout << "in save" << endl;
-	ofstream OFile;
-	OFile.open(file.c_str(), ofstream::out);
-	for (size_t i = 0; i < m_nodes.size(); i++) {
-		const list<Edge> neighbors = getAdjNodes(getNodeAt(i));
-		for (list<Edge>::const_iterator itr = neighbors.begin(); itr != neighbors.end(); ++itr) {
-			list<Edge>::const_iterator Nitr = itr;
-			if (i + 1 == m_nodes.size() && ++Nitr == neighbors.end()) {
-				OFile << itr->getDestination.name() << "\t" << getNode(i).name();
-			}
-			else {
-				OFile << itr->getDestination().name() << "\t" << getNode(i).name() << "\n";
-			}
-		}
-	}
-	OFile.close();
-}*/
 
 ostream& operator<<(ostream & out, const Graph & g){
     out << "Nodes in "<< ( ( g.Directed )? "Directed" : "Undirected") << " graph: " << endl ;

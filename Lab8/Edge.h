@@ -10,10 +10,12 @@
 #define EDGE_H
 
 #include "Node.h"
+#include <iostream>
+
 class Edge
 {
 public:
-	Edge(const int s,const int d, double dist);
+	Edge(int s,int d, double dist);
 	int getSource()const;
 	int getDestination()const;
 	void setDistance(double d);
@@ -23,8 +25,8 @@ public:
 	bool operator!=(const Edge& E)const;
 private:
 	double Dist;
-	const int DestID;
-	const int SrcID;
+	int DestID;
+	int SrcID;
 };
 
 #endif // !EDGE_H

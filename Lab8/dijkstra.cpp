@@ -51,6 +51,8 @@ void dijkstra::Dijkstra_heap(Graph & G, Node & s) {
 
 void dijkstra::Dijkstra_EC(Graph & G, Node & s, Node & d) {
 	//creating the prioity queue starting with source
+
+	bool found = false;
 	MinHeapQueue H = MinHeapQueue(s, G.getAllNodes());
 	vector<int> rpath = vector<int>();
 	while (!H.isEmpty()) {
@@ -63,8 +65,18 @@ void dijkstra::Dijkstra_EC(Graph & G, Node & s, Node & d) {
 				G.getNodeAt(e->getDestination()).setPreID(u.id());
 				H.decreaseKey(G.getNodeAt(e->getDestination()), u.Dist() + e->getDistance());
 			}
-			if (G.getNodeAt(e->getDestination()) == d) { return; }
+			if (G.getNodeAt(e->getDestination()) == d) {
+				found = true;
+				return; }
 		}
 	}
+
+	if (found) {
+		rpath.push_back(d.id);
+		while (rpath.front() != s.id()) {
+			rpath.push_back( G.getNodeAt( rpath.front() ).PreID() );
+		}
+	}
+
 }
 

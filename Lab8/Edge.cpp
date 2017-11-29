@@ -8,7 +8,9 @@
 **/
 #include "Edge.h"
 
-Edge::Edge(const int s,const int d, double dist):DestID(d),SrcID(s) {
+Edge::Edge( int s, int d, double dist){
+	DestID = d;
+	SrcID = s;
 	Dist = dist;
 }
 
@@ -28,7 +30,7 @@ double Edge::getDistance()const{
 }
 
 ostream& operator<<(ostream& out, Edge& e) {
-	out << " (" << e.getSource() << "->" << e.getDestination() << ")= " << e.getDistance();
+	out << " (" << e.getSource() << ", " << e.getDestination() << ") =" << e.getDistance();
 	return out;
 }
 

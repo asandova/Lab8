@@ -8,6 +8,7 @@
 **/
 #include <iostream>
 #include <string>
+#include <limits>
 #include "Node.h"
 
 using namespace std;
