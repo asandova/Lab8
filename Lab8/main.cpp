@@ -28,26 +28,27 @@ void wrapHeap(string& filename) {
 
 void testall(){
 
-	Graph Tgraph("Graph1.txt",true);
-	Graph Tgraph1("Graph1.txt", true);
-	cout << Tgraph << endl;
-	dijkstra::Dijkstra_heap(Tgraph, Tgraph.getNode(0));
-	cout << Tgraph << endl;
+	//Graph Tgraph("Graph1.txt",true);
+	//Graph Tgraph1("Graph1.txt", true);
+	//cout << Tgraph << endl;
+	//dijkstra::Dijkstra_heap(Tgraph, Tgraph.getNode(0));
+	//cout << Tgraph << endl;
 
 	//cout << Tgraph1 << endl;
 	//dijkstra::Dijkstra_list(Tgraph1, Tgraph1.getNode(0));
 	//cout << Tgraph1 << endl;
 
 	//extra credit
-	/*
+	
 	Graph ECGraph = Graph();
-	ECGraph.scanTMG("USA-country-simple.tmg");
-	ECGraph.save("EC_master.txt");
+	ECGraph.scanTMG("tm-master-simple.tmg");
+	//ECGraph.save("EC_master.txt");
+	//ECGraph.scan("EC_master.txt");
 	cout << "read complete" << endl;
 	int S_ID = ECGraph.findID("NM271@+X478507");
 	int E_ID = ECGraph.findID("US11_N/NY11C_N");
-	//dijkstra::Dijkstra_EC(ECGraph, ECGraph.getNodeAt(S_ID) , ECGraph.getNodeAt(E_ID));
-	*/
+	dijkstra::Dijkstra_EC(ECGraph, ECGraph.getNodeAt(S_ID) , ECGraph.getNodeAt(E_ID));
+	
 }
 
 int main(){

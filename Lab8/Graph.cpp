@@ -294,11 +294,15 @@ void Graph::scanTMG(const string& file) {
 
 					//addNode( Node(tline[0], line - 2, atof( tline[1].c_str() ), atof(tline[2].c_str() ) ) );
 				}
-				else if (line >= numVert + 2){
+				else if (line >= numVert + 2 && line < numVert + 2 + numEdges){
 					tline = split(fline);
 					int N1ID = atoi(tline[0].c_str());
 					int N2ID = atoi(tline[1].c_str());
-					addEdge(getNodeAt(N1ID), getNodeAt(N1ID), findDist(getNodeAt(N1ID), getNodeAt(N2ID)));
+					if (!Directed) {
+						m_adjList[N2ID].push_back(Edge(N2ID, N1ID, findDist(getNodeAt(N1ID), getNodeAt(N2ID)  ) ) );
+					}
+					m_adjList[N1ID].push_back(Edge(N1ID, N2ID, findDist(getNodeAt(N1ID), getNodeAt(N2ID))));
+					//addEdge(getNodeAt(N1ID), getNodeAt(N2ID), findDist(getNodeAt(N1ID), getNodeAt(N2ID)));
 				}
 				//cout << fline << endl;
 			}
