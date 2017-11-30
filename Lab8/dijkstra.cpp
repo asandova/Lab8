@@ -6,12 +6,13 @@
 *Purpose: implements dijkstra static class
 *
 **/
-
+#include <vector>
 #include "dijkstra.h"
 #include "HeapPriorityQueue.h"
 #include "LinkedPriorityQueue.h"
 #include <fstream>
 
+void PathOut(vector<int>& path , Graph& g);
 
 void dijkstra::Dijkstra_list(Graph & G, Node & s) {
 
@@ -78,7 +79,6 @@ void dijkstra::Dijkstra_EC(Graph & G, Node & s, Node & d) {
 	}
 
 	if (found) {
-		cout << "destination found" << endl;
 		rpath.push_back(d.id());
 		while (rpath.front() != s.id()) {
 			rpath.push_back( G.getNodeAt( rpath.front() ).PreID() );

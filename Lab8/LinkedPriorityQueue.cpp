@@ -8,7 +8,7 @@
 **/
 #include <list>
 #include "LinkedPriorityQueue.h"
-
+#include <math.h>
 using namespace std;
 
 //template<typename T>
@@ -35,12 +35,14 @@ void LinkedPQueue::Insert(Node &n) {
 //template<typename T>
 void LinkedPQueue::RemoveMin() {
 
-	Node Ttemp = PQueue.back();
-	PQueue.pop_front();
-	PQueue.pop_back();
-	PQueue.push_front(Ttemp);
-	list<Node>::iterator n = PQueue.begin();
-	siftDown(1, n );
+	Node Ttemp = PQueue.back();//getting last element
+	PQueue.pop_front();//removing first element
+	if(PQueue.size() > 0)
+		PQueue.pop_back();//removeing last element
+	PQueue.push_front(Ttemp);//pushing temp in front
+
+	//list<Node>::iterator n = PQueue.begin();
+	siftDown(1, PQueue.begin() );
 }
 
 //template<typename T>
@@ -67,17 +69,17 @@ void LinkedPQueue::decreaseKey(Node& E, double dist) {
 	}
 	temp.setDist(dist);
 	PQueue.push_back(temp);
-	list<Node>::reverse_iterator r;
-	siftUp( PQueue.size() , r = PQueue.rbegin() );
+	//list<Node>::reverse_iterator r;
+	siftUp( PQueue.size() , PQueue.rbegin() );
 }
 
 //template<typename T>
 void LinkedPQueue::siftDown(size_t I, list<Node>::iterator n) {
 	size_t i;
-	if (I * 2 <= PQueue.size() ) {
-		list<Node>::iterator L = n;
-		for ( i = I; i <= I * 2; ++L);
-
+	if (I * 2 < PQueue.size() ) {
+		list<Node>::iterator L;
+		L = n;
+		for ( i = I; i < I * 2; ++L , i++);
 		if (*n > *L) {
 			Node temp = *n;
 			*n = *L;
@@ -85,9 +87,9 @@ void LinkedPQueue::siftDown(size_t I, list<Node>::iterator n) {
 		}
 		siftDown(i, L);
 	}
-	if (I * 2 + 1 <= PQueue.size()) {
+	if (I * 2 + 1 < PQueue.size()) {
 		list<Node>::iterator R = n;
-		for (size_t i = I; i <= I * 2 + 1; ++R);
+		for (size_t i = I; i < I * 2 + 1; ++R ,i++);
 		if (*n > *R) {
 			Node temp = *n;
 			*n = *R;
@@ -101,10 +103,12 @@ void LinkedPQueue::siftDown(size_t I, list<Node>::iterator n) {
 //template<typename T>
 void LinkedPQueue::siftUp(size_t I, list<Node>::reverse_iterator n) {
 
-	if (I == 0)
+	size_t half = (int)I / 2;
+	if ( half == 0 )
 		return;
 	else {
-		size_t dif = I - (I / 2);
+
+		size_t dif = (size_t)floor(I - half ) ;
 		list<Node>::reverse_iterator R;
 		for (R = n; dif != 0; ++R , dif--);
 		if (*n < *R) {
@@ -112,6 +116,6 @@ void LinkedPQueue::siftUp(size_t I, list<Node>::reverse_iterator n) {
 			*n = *R;
 			*R = temp;
 		}
-		siftUp(I /2, R);
+		siftUp((int)I /2, R);
 	}
 }
