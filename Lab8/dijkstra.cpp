@@ -6,7 +6,7 @@
 *Purpose: implements dijkstra static class
 *
 **/
-
+#include <vector>
 #include "dijkstra.h"
 #include "HeapPriorityQueue.h"
 #include "LinkedPriorityQueue.h"
@@ -72,7 +72,7 @@ void dijkstra::Dijkstra_EC(Graph & G, Node & s, Node & d) {
 	}
 
 	if (found) {
-		rpath.push_back(d.id);
+		rpath.push_back(d.id());
 		while (rpath.front() != s.id()) {
 			rpath.push_back( G.getNodeAt( rpath.front() ).PreID() );
 		}

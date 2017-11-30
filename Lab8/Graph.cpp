@@ -15,6 +15,7 @@
 #include <cstring>
 #include <math.h>
 #include <stdlib.h>
+#include <cstdlib>
 
 #include "Graph.h"
 using namespace std;
@@ -183,8 +184,9 @@ size_t Graph::num_nodes ( ) const {
 }
 
 //only splits strings into two on tab character
-vector<string> split(const string& a){
-    vector<string> Line;
+vector<string> split(const string a){
+	vector<string> Line = vector<string>();
+
 	size_t TabLoc[2];
 	size_t tab = 0;
     for(size_t i = 0; i < a.size()-1; i++ ){
@@ -197,6 +199,7 @@ vector<string> split(const string& a){
 	Line.push_back( a.substr(TabLoc[0]+1,TabLoc[1]-TabLoc[0]-1) );
 	Line.push_back(a.substr(TabLoc[1]+1, a.size() ) );
     return Line;
+	
 }
 
 vector<string> split2(const string& a) {
@@ -213,6 +216,15 @@ vector<string> split2(const string& a) {
 	return Line;
 }
 
+int numTabs(const string& a) {
+	int tabs = 0;
+	for(size_t i = 0; i < a.size() - 1; i++) {
+		if (a[i] == ' ' || a[i] == '\t') {
+			tabs++;
+		}
+	}
+	return tabs;
+}
 // Create a graph from a tab−separated text edge list file
 // to adjacency lists
 void Graph::scan ( const string & file ){
@@ -231,12 +243,12 @@ void Graph::scan ( const string & file ){
                 getline(iFile, fline);
                 string L(fline);
 				if (fline.size() >= 3) {
-					vector<string> Line = split(fline);
-					//vector<string>names(2);
-					//names[0] = fline.c_str()[0];
-					//names[1] = fline.c_str()[2];
-					//cout << endl <<"read in: "<< fline << endl;
-
+					vector<string> Line = vector<string>();
+					if (numTabs(fline) == 2) {
+						Line = split(fline);
+					}else {
+						Line = split2(fline);
+					}
 					if(!NodeExist( Line[0] ) ){
 							N1 = Node( Line[0],id++) ;
 							//N1 = tmp1;
@@ -257,7 +269,12 @@ void Graph::scan ( const string & file ){
 					}
 					//cout << "N2: " << N2 << endl;
 					//cout << N1 << endl << N2 << endl;
-					addEdge(N1, N2, atof( Line[2].c_str() ));
+					if (Line.size() < 3) {
+						addEdge(N1, N2, (float)(rand() % 100 + 1) );
+					}
+					else {
+						addEdge(N1, N2, atof(Line[2].c_str()) );
+					}
 				}
         }//end of while
         iFile.close();
