@@ -57,10 +57,11 @@ void MinHeapQueue::decreaseKey(Node& E, double dist) {
 	Node temp;
 	for (vector<Node>::iterator itr = QueueVec.begin(); itr != QueueVec.end(); ++itr) {
 		if (*itr == E) {
-			temp = *itr;
-			temp.setDist(dist);
-			QueueVec.erase(itr);
-			QueueVec.push_back(temp);
+			itr->setDist(dist);
+			//temp = *itr;
+			//temp.setDist(dist);
+			//QueueVec.erase(itr);
+			//QueueVec.push_back(temp);
 			make_heap(QueueVec.begin(), QueueVec.end(), lesser());
 			break;
 		}
