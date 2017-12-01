@@ -29,19 +29,19 @@ void wrapHeap(string& filename) {
 void testall(){
 
 	Graph Tgraph("Graph1.txt",true);
-	Graph Tgraph1("Graph2.txt", true);
-	Graph Tgraph2("Graph1.txt", true);
+	Graph Tgraph1("Graph1-1.txt", true);
+	//Graph Tgraph2("Lab8_Test.txt", true);
 	cout << Tgraph << endl;
 	dijkstra::Dijkstra_heap(Tgraph, Tgraph.getNode(0));
 	cout << Tgraph << endl;
 
-	cout << Tgraph1 << endl;
+	//cout << Tgraph1 << endl;
 	dijkstra::Dijkstra_heap(Tgraph1, Tgraph.getNode(0));
 	cout << Tgraph1 << endl;
 
-	cout << Tgraph2 << endl;
-	dijkstra::Dijkstra_list(Tgraph2, Tgraph2.getNode(0));
-	cout << Tgraph2 << endl;
+	//cout << Tgraph2 << endl;
+	//dijkstra::Dijkstra_list(Tgraph2, Tgraph2.getNode(0));
+	//cout << Tgraph2 << endl;
 
 	//extra credit
 	/*
@@ -67,15 +67,16 @@ int main(){
 require("igraph")
 source("random_graph.R")
 print("working")
-edges.num <- c(1000,1500,2000,2500,3000)
+edges.num <- c(1000,1100,1200,1300,1400)
 nodes.num <- c(1000,1100,1200,1300,1400)
 runtime <- vector(length = 5)
 for(i in c(1:5)){
- random.graph(nodes.num[i], edges.num[i], "Lab8_Test.txt")
+ #random.graph(nodes.num[i], edges.num[i], "Lab8_Test.txt")
 
-  runtime[i] <- system.time(wrapList("Lab8_Test.txt") )["user.self"]
+  #runtime[i] <- system.time(wrapList("Lab8_Test.txt") )["user.self"]
   #runtime[i] <- system.time(wrapHeap("Lab8_Test.txt") )["user.self"]
+  
 }
-  plot( nodes.num ,runtime, type="b", xlab="edges", ylab = "runtime (seconds)")
+  #plot( nodes.num ,runtime, type="b", xlab="Nodes", ylab = "runtime (seconds)")
   print("done")
 */
