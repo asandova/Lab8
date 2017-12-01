@@ -12,6 +12,7 @@
 #include "LinkedPriorityQueue.h"
 #include <fstream>
 
+void PathOut(vector<int>& path, Graph& g);
 
 void dijkstra::Dijkstra_list(Graph & G, Node & s) {
 
@@ -52,7 +53,7 @@ void dijkstra::Dijkstra_heap(Graph & G, Node & s) {
 
 void dijkstra::Dijkstra_EC(Graph & G, Node & s, Node & d) {
 	//creating the prioity queue starting with source
-
+	s.setDist(0);
 	bool found = false;
 	MinHeapQueue H = MinHeapQueue(s, G.getAllNodes());
 	vector<int> rpath = vector<int>();
@@ -63,7 +64,7 @@ void dijkstra::Dijkstra_EC(Graph & G, Node & s, Node & d) {
 		list<Edge>::const_iterator e;
 		for (e = G.getAdjNodes(u).begin(); e != G.getAdjNodes(u).end(); ++e) {
 			Node t = G.getNodeAt(e->getDestination());
-			if ((s.Lat() <= t.Lat() && t.Lat() <= d.Lat()) && (s.Long() <= t.Long() && t.Long() <= d.Long())) {
+			//if ((s.Lat() <= t.Lat() && t.Lat() <= d.Lat()) && (s.Long() <= t.Long() && t.Long() <= d.Long())) {
 				if (G.getNodeAt(e->getDestination()).Dist() > (u.Dist() + e->getDistance())) {
 					G.getNodeAt(e->getDestination()).setDist(u.Dist() + e->getDistance());
 					G.getNodeAt(e->getDestination()).setPreID(u.id());
@@ -73,7 +74,7 @@ void dijkstra::Dijkstra_EC(Graph & G, Node & s, Node & d) {
 					found = true;
 					return;
 				}
-			}
+			//}
 		}
 	}
 

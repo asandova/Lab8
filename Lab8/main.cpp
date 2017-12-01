@@ -41,7 +41,7 @@ void testall(){
 	//extra credit
 	
 	Graph ECGraph = Graph();
-	ECGraph.scanTMG("tm-master-simple.tmg");
+	ECGraph.scanTMG("USA-country-simple.tmg");
 	//ECGraph.save("EC_master.txt");
 	//ECGraph.scan("EC_master.txt");
 	cout << "read complete" << endl;
@@ -63,8 +63,8 @@ int main(){
 require("igraph")
 source("random_graph.R")
 print("working")
-edges.num <- c(100,200,300,400,500)
-nodes.num <- c(100,200,300,400,500)
+edges.num <- c(1000,1200,1300,1400,1500)
+nodes.num <- c(1000,1200,1300,1400,1500)
 runtime <- vector(length = 5)
 for(i in c(1:5)){
  random.graph(nodes.num[i], edges.num[i], "Lab8_Test.txt")
@@ -72,6 +72,6 @@ for(i in c(1:5)){
   #runtime[i] <- system.time(warpList("Lab8_Test.txt") )["user.self"]
   runtime[i] <- system.time(warpHeap("Lab8_Test.txt") )["user.self"]
 }
-  plot( 20 ,runtime, type="b", xlab="n", ylab = "runtime (seconds)")
+  plot( nodes.num ,runtime, type="b", xlab="n", ylab = "runtime (seconds)")
   print("done")
 */
