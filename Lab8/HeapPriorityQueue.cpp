@@ -5,11 +5,11 @@
 
 using namespace std;
 
-
 //template<typename T>
 struct lesser {
 	bool operator() (const Node& e1, const Node& e2)const {
-		if (e1 > e2)return true;
+		//if (e1 > e2)
+		if (e1 > e2 )return true;
 		else return false;
 	}
 };

@@ -315,8 +315,11 @@ void Graph::scanTMG(const string& file) {
 					tline = split(fline);
 					int N1ID = atoi(tline[0].c_str());
 					int N2ID = atoi(tline[1].c_str());
+					Node s = getNodeAt(N1ID);
+					Node e = getNodeAt(N2ID);
+					double dist = findDist(getNodeAt(N1ID), getNodeAt(N2ID));
 					if (!Directed) {
-						m_adjList[N2ID].push_back(Edge(N2ID, N1ID, findDist(getNodeAt(N1ID), getNodeAt(N2ID)  ) ) );
+						m_adjList[N2ID].push_back(Edge(N2ID, N1ID, dist ) );
 					}
 					m_adjList[N1ID].push_back(Edge(N1ID, N2ID, findDist(getNodeAt(N1ID), getNodeAt(N2ID))));
 					//addEdge(getNodeAt(N1ID), getNodeAt(N2ID), findDist(getNodeAt(N1ID), getNodeAt(N2ID)));
@@ -385,12 +388,15 @@ ostream& operator<<(ostream & out, const Graph & g){
     return out;
 }
 
-double Graph::findDist( Node & a, Node& b)const {
-	double latDif, LongDif, A, C;
-	latDif = b.Lat() - a.Lat();
-	LongDif = b.Long() - a.Long();
-	A = pow(sin(latDif / 2), 2) + cos(a.Lat()) * cos(b.Lat()) * pow(sin(LongDif / 2), 2);
+double Graph::findDist(const Node & a,const Node& b){
+	double latDif, LongDif, A, C, D;
+	const double PI = 3.14159265359;
+	latDif = ( b.Lat() - a.Lat() ) * (PI / 180 );
+	LongDif = ( b.Long() - a.Long() )  * (PI / 180);
+	A = pow(sin(latDif / 2), 2) + cos(a.Lat() *(PI / 180) ) * cos(b.Lat() * (PI / 180)) * pow(sin(LongDif / 2), 2);
 	C = 2 * atan2(sqrt(A), sqrt( 1 - A ));
-	return 3961 * C;
+	D = 3964.0 * C;
+	//cout << D << endl;
+	return D;
 }
 

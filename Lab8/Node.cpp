@@ -124,6 +124,18 @@ bool Node::operator>(const Node& b)const {
 		return true;
 	else return false;
 }
+
+bool Node::LatGreater(const Node& b) const{
+	if (this->Latitude > b.Lat())
+		return true;
+	else return false;
+}
+bool Node::LongGreater(const Node& b)const {
+	if (this->Longitude > b.Long())
+		return true;
+	else return false;
+}
+
 /*
 const Node Node::operator=(const Node& b) {
 	return b;

@@ -79,7 +79,6 @@ class Graph{
         // text edge list file
         void save ( const string & file ) ; //defined
 		//void saveRev(const string & file);
-	private:
-		double findDist(Node& a, Node& b)const;
+		static double findDist(const Node& a, const Node& b);
 };
 #endif // GRAPH_H

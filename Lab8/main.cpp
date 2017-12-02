@@ -42,11 +42,13 @@ void testall(){
 	
 	Graph ECGraph = Graph();
 	ECGraph.scanTMG("USA-country-simple.tmg");
+
 	//ECGraph.save("EC_master.txt");
 	//ECGraph.scan("EC_master.txt");
 	cout << "read complete" << endl;
-	int S_ID = ECGraph.findID("NM271@+X478507");
-	int E_ID = ECGraph.findID("US11_N/NY11C_N");
+	int S_ID = ECGraph.findID("NM271@+X478507"); //Las Curces
+	int E_ID = ECGraph.findID("NM501/NM502"); //Los Alamos
+	//int E_ID = ECGraph.findID("US11_N/NY11C_N");
 	dijkstra::Dijkstra_EC(ECGraph, ECGraph.getNodeAt(S_ID) , ECGraph.getNodeAt(E_ID));
 	
 }

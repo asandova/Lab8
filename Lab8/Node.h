@@ -32,6 +32,8 @@ public:
         bool operator!=(const Node & b)const;
 		bool operator>(const Node & b)const;
         bool operator<(const Node & b)const;
+		bool LatGreater(const Node& b)const;
+		bool LongGreater(const Node& b)const;
 		//const Node operator=(const Node& b);
 
         int id()const;
@@ -48,6 +50,7 @@ public:
 
 		void setLong(double l);
 		double Long()const;
+
 
 		const string & name()const;
 };
