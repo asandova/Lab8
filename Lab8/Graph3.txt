@@ -1,13 +1,13 @@
-A	B
-A	H
-B	F
-C	B
-D	C
-D	E
-F	D
-F	E
-F	C
-G	F
-G	B
-G	A
-H	G
+A	B	1
+A	H	2
+B	F	1
+C	B	3
+D	C	4
+D	E	1
+F	D	5
+F	E	1
+F	C	6
+G	F	3
+G	B	1
+G	A	1
+H	G	1

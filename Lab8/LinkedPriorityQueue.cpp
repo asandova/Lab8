@@ -35,14 +35,14 @@ void LinkedPQueue::Insert(Node &n) {
 //template<typename T>
 void LinkedPQueue::RemoveMin() {
 
-	Node Ttemp = PQueue.back();//getting last element
 	PQueue.pop_front();//removing first element
-	if(PQueue.size() > 0)
-		PQueue.pop_back();//removeing last element
-	PQueue.push_front(Ttemp);//pushing temp in front
-
-	//list<Node>::iterator n = PQueue.begin();
-	siftDown(1, PQueue.begin() );
+	if (PQueue.size() > 1) {
+		Node Ttemp = PQueue.back();//getting last element
+		if(PQueue.size() > 0)
+			PQueue.pop_back();//removeing last element
+		PQueue.push_front(Ttemp);//pushing temp in front
+		siftDown(1, PQueue.begin());
+	}
 }
 
 //template<typename T>
@@ -76,6 +76,9 @@ void LinkedPQueue::decreaseKey(Node& E, double dist) {
 //template<typename T>
 void LinkedPQueue::siftDown(size_t I, list<Node>::iterator n) {
 	size_t i;
+	if (I >= PQueue.size()) {
+		return;
+	}
 	if (I * 2 < PQueue.size() ) {
 		list<Node>::iterator L;
 		L = n;
@@ -89,7 +92,7 @@ void LinkedPQueue::siftDown(size_t I, list<Node>::iterator n) {
 	}
 	if (I * 2 + 1 < PQueue.size()) {
 		list<Node>::iterator R = n;
-		for (size_t i = I; i < I * 2 + 1; ++R ,i++);
+		for (i = I; i < I * 2 + 1; ++R ,i++);
 		if (*n > *R) {
 			Node temp = *n;
 			*n = *R;
